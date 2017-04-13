@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/activity_user_search"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".presentation.favourite.FavouriteActivity">
+
+<android.support.v7.widget.Toolbar
+    android:id="@+id/toolbar"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorPrimary"
+    android:minHeight="?attr/actionBarSize"
+    android:theme="?attr/actionBarTheme"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintLeft_toLeftOf="@+id/activity_user_search"
+    app:layout_constraintRight_toRightOf="@+id/activity_user_search"
+    app:layout_constraintTop_toTopOf="@+id/activity_user_search">
+
+</android.support.v7.widget.Toolbar>
+
+<android.support.v7.widget.RecyclerView
+    android:id="@+id/recycler_view"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_marginBottom="16dp"
+    android:clipToPadding="false"
+    android:scrollbars="vertical"
+    app:layout_constraintBottom_toBottomOf="@+id/activity_user_search"
+    app:layout_constraintLeft_toLeftOf="@+id/activity_user_search"
+    app:layout_constraintRight_toRightOf="@+id/activity_user_search"
+    app:layout_constraintTop_toBottomOf="@+id/toolbar"
+    tools:listitem="@layout/movies_list_item">
+
+</android.support.v7.widget.RecyclerView>
+
+<ProgressBar
+    android:id="@+id/progress_bar"
+    style="@style/Widget.AppCompat.ProgressBar"
+    android:layout_width="60dp"
+    android:layout_height="60dp"
+    android:layout_marginBottom="16dp"
+    android:layout_marginTop="16dp"
+    android:visibility="gone"
+    app:layout_constraintBottom_toBottomOf="@+id/activity_user_search"
+    app:layout_constraintLeft_toLeftOf="@+id/recycler_view"
+    app:layout_constraintRight_toRightOf="@+id/recycler_view"
+    app:layout_constraintTop_toBottomOf="@+id/toolbar"
+    tools:visibility="visible"/>
+
+</android.support.constraint.ConstraintLayout>

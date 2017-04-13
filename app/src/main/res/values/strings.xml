@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="image_description">Poster image of movies</string>
+    <string name="category_key">category</string>
+    <string name="pref_default">most_popular</string>
+</resources>
