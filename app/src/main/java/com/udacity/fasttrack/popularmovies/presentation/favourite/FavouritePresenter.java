@@ -20,8 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 class FavouritePresenter implements FavouriteContract.Presenter {
 
-    private boolean mFirstLoad = true;
-
     @NonNull
     private final FavouriteContract.View mFavouriteView;
 
@@ -32,12 +30,12 @@ class FavouritePresenter implements FavouriteContract.Presenter {
 
     private final MovieRepository mMovieRepository;
 
-    public FavouritePresenter(@NonNull BaseSchedulerProvider mSchedulerProvider,
-                              @NonNull MovieRepository mMovieRepository,
-                              @NonNull FavouriteContract.View mFavouriteView) {
-        this.mSchedulerProvider = checkNotNull(mSchedulerProvider, "schedulerProvider cannot be null");
-        this.mMovieRepository = checkNotNull(mMovieRepository,"movieRepository cannot be null");
-        this.mFavouriteView = checkNotNull(mFavouriteView,"favouriteView cannot be null");
+    public FavouritePresenter(@NonNull BaseSchedulerProvider schedulerProvider,
+                              @NonNull MovieRepository movieRepository,
+                              @NonNull FavouriteContract.View favouriteView) {
+        this.mSchedulerProvider = checkNotNull(schedulerProvider, "schedulerProvider cannot be null");
+        this.mMovieRepository = checkNotNull(movieRepository,"movieRepository cannot be null");
+        this.mFavouriteView = checkNotNull(favouriteView,"favouriteView cannot be null");
 
         mSubscriptions = new CompositeSubscription();
         this.mFavouriteView.setPresenter(this);
@@ -49,7 +47,7 @@ class FavouritePresenter implements FavouriteContract.Presenter {
     }
 
     @Override
-    public void unsubscribe() {
+    public void unSubscribe() {
         mSubscriptions.clear();
     }
 
@@ -78,8 +76,13 @@ class FavouritePresenter implements FavouriteContract.Presenter {
     }
 
     @Override
-    public void openMovieDetails(@NonNull Movie movie) {
+    public void setNetworkError() {
+        mFavouriteView.showNetworkError();
+    }
 
+    @Override
+    public void openMovieDetails(@NonNull Movie movie) {
+        mFavouriteView.showMovieDetailsUi(movie);
     }
 
 }

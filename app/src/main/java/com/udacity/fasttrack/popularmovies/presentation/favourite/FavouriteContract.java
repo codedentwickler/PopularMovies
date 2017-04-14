@@ -20,6 +20,8 @@ public interface FavouriteContract {
 
         void showLoadingErrorMessage(String message);
 
+        void showNetworkError();
+
         void setLoadingIndicator(boolean active);
 
         void showMovieDetailsUi(Movie movie);
@@ -31,6 +33,8 @@ public interface FavouriteContract {
     interface Presenter extends BasePresenter {
 
         void loadMoviesWithPref(String pref);
+
+        void setNetworkError();
 
         void openMovieDetails(@NonNull Movie movie);
 

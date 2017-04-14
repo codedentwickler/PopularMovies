@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="190dp"
+        android:layout_height="322dp"
+        app:srcCompat="@drawable/placeholder_movie_details_image"
+        android:id="@+id/imageView2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="16dp"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        tools:text="@string/jurasic"
+        android:layout_height="wrap_content"
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@+id/imageView2"
+        android:layout_marginTop="48dp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        tools:text="@string/rating"
+        android:layout_height="wrap_content"
+        android:id="@+id/rating"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toRightOf="@+id/imageView2"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <TextView
+        tools:text="@string/release"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView6"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@+id/rating"
+        app:layout_constraintLeft_toRightOf="@+id/imageView2"
+        android:layout_width="wrap_content"
+        app:layout_constraintHorizontal_bias="0.32"
+        android:layout_marginStart="16dp" />
+
+    <TextView
+        tools:text="@string/plot"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/textView8"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        tools:text="@string/running_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="italic|bold"
+        android:id="@+id/running_time"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toRightOf="@+id/imageView2" />
+
+
+</android.support.constraint.ConstraintLayout>

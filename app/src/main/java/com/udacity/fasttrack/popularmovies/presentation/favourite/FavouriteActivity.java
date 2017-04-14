@@ -9,8 +9,6 @@ import com.udacity.fasttrack.popularmovies.utils.ActivityUtils;
 
 public class FavouriteActivity extends AppCompatActivity {
 
-    private FavouritePresenter mPresenter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +24,7 @@ public class FavouriteActivity extends AppCompatActivity {
         }
 
         // Create the presenter
-        mPresenter = new FavouritePresenter(Injection.provideSchedulerProvider(),
+        new FavouritePresenter(Injection.provideSchedulerProvider(),
                 Injection.provideMovieRepo(), favouriteFragment);
 
     }

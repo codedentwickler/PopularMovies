@@ -2,8 +2,22 @@
     <string name="app_name">Popular Movies</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="image_description">Poster image of movies</string>
     <string name="category_key">category</string>
-    <string name="pref_default">most_popular</string>
+    <string name="pref_most_popular">popular</string>
+    <string name="pref_top_rated">top_rated</string>
+    <string name="most_popular">Sort By : Most Popular</string>
+    <string name="highest_rated">Sort By : Top Rated</string>
+    <string name="popular">Most Popular</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="error_loading_movies">Error while loading Movies</string>
+    <string name="title_activity_favourite_details">Movie Detail</string>
+    <string name="action_settings">Settings</string>
+    <string name="jurasic">Jurasic World</string>
+    <string name="plot">jhrjkahjkhjkfhdzkfhjkhjkafvghsdvgfdhgvsghdvghasfvghfvdcghvghsdfvghdsavghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhjgvsjhfvjhdfvjhsvjhsdvjhsdfhkjfhajkafkhuihihuihuisdfuiguifuiashuighasuihuighisuhgioughuiohgiousoid</string>
+    <string name="rating">8.0/10</string>
+    <string name="poster_image_description">Movie Poster</string>
+    <string name="release">March 2017</string>
+    <string name="running_time">130 mins</string>
+    <string name="network_error_text">Your device is Currently Offline</string>
 </resources>

@@ -37,7 +37,7 @@ class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.ViewHolder>
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent , int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.movies_list_item, parent, false);
         return new ViewHolder(v);
@@ -68,9 +68,13 @@ class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.ViewHolder>
         return movies.size();
     }
 
+    void replaceData(List<Movie> movies) {
+        setMovies(movies);
+        notifyDataSetChanged();
+    }
+
     private void setMovies(List<Movie> movies) {
         this.movies = checkNotNull(movies);
-        notifyDataSetChanged();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -89,7 +93,7 @@ class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.ViewHolder>
         }
 
     }
-    public interface OnItemClickListener {
+    interface OnItemClickListener {
         void onItemClick(Movie movie);
     }
 }

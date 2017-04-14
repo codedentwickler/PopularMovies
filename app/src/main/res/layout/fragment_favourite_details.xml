@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+xmlns:tools="http://schemas.android.com/tools"
+android:padding="@dimen/activity_horizontal_margin"
+android:orientation="vertical">
+
+<TextView
+    android:id="@+id/title"
+    android:layout_width="match_parent"
+    android:background="@color/colorAccent"
+    android:textColor="@android:color/white"
+    android:textSize="26sp"
+    android:paddingLeft="16dp"
+    android:gravity="center_vertical"
+    android:layout_height="100dp" />
+
+<ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/posterDetail"
+            android:layout_width="190dp"
+            android:layout_height="322dp"
+            tools:src="@drawable/placeholder_movie_details_image"
+            android:scaleType="centerCrop"/>
+
+
+        <TextView
+            android:id="@+id/releaseDate"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/posterDetail"
+            android:layout_width="wrap_content"
+            tools:text="@string/release"
+            android:textSize="20sp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/votes"
+            android:layout_toRightOf="@id/posterDetail"
+            android:layout_below="@id/releaseDate"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:fontFamily="monospace"
+            tools:text="@string/rating"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/running_time"
+            android:layout_toRightOf="@id/posterDetail"
+            android:layout_below="@id/votes"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:fontFamily="monospace"
+            tools:text="@string/running_time"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/overviewText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingRight="15dp"
+            tools:text="@string/plot"
+            android:textStyle="italic"
+            android:layout_below="@id/posterDetail"
+            android:layout_marginTop="15dp"
+            android:textSize="16dp" />
+
+    </RelativeLayout>
+
+</ScrollView>
+
+</LinearLayout>
