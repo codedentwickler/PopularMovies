@@ -12,10 +12,6 @@ public interface FavouriteDetailsContract {
 
     interface View extends BaseView<Presenter> {
 
-        void hideTitle();
-
-        void showTitle(String title);
-
         void showMovieDetails(Movie movie);
 
         boolean isActive();

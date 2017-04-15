@@ -14,6 +14,7 @@ public class FavouriteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourite);
 
+
         FavouriteFragment favouriteFragment =
                 (FavouriteFragment) getSupportFragmentManager().findFragmentById(R.id.container);
         if (favouriteFragment == null) {

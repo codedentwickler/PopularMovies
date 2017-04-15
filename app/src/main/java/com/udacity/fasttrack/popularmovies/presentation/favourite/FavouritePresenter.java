@@ -1,6 +1,7 @@
 package com.udacity.fasttrack.popularmovies.presentation.favourite;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.udacity.fasttrack.popularmovies.data.MovieRepository;
 import com.udacity.fasttrack.popularmovies.data.remote.model.Movie;
@@ -20,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 class FavouritePresenter implements FavouriteContract.Presenter {
 
+    private static final String TAG = FavouritePresenter.class.getSimpleName();
     @NonNull
     private final FavouriteContract.View mFavouriteView;
 
@@ -63,13 +65,17 @@ class FavouritePresenter implements FavouriteContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         mFavouriteView.setLoadingIndicator(false);
+                        Log.e(TAG, e.getMessage());
                         mFavouriteView.showLoadingErrorMessage(e.getMessage());
                     }
 
                     @Override
                     public void onNext(List<Movie> movies) {
                         mFavouriteView.setLoadingIndicator(false);
+                        Log.d(TAG, movies.size() + " was fetched from MovieDb service");
+
                         mFavouriteView.showMoviesResults(movies);
+
                     }
                 });
         mSubscriptions.add(subscription);

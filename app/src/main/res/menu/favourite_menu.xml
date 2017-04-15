@@ -7,12 +7,13 @@
 
     <item android:id="@+id/most_popular"
         android:title="@string/most_popular"
+        android:checked="true"
         android:orderInCategory="1"
         app:showAsAction="never"/>
 
         <item android:id="@+id/top_rated"
             android:title="@string/highest_rated"
-            android:orderInCategory="1"
+            android:orderInCategory="2"
             app:showAsAction="never"/>
 
 

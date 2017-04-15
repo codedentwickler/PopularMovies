@@ -2,7 +2,6 @@ package com.udacity.fasttrack.popularmovies.presentation.details;
 
 import android.support.annotation.NonNull;
 
-import com.google.common.base.Strings;
 import com.udacity.fasttrack.popularmovies.data.remote.model.Movie;
 
 import rx.subscriptions.CompositeSubscription;
@@ -19,7 +18,6 @@ public class FavouriteDetailsPresenter implements FavouriteDetailsContract.Prese
 
     private final FavouriteDetailsContract.View mDetailView;
 
-
     @NonNull
     private CompositeSubscription mSubscriptions;
 
@@ -28,18 +26,11 @@ public class FavouriteDetailsPresenter implements FavouriteDetailsContract.Prese
         this.mDetailView = mDetailView;
 
         mSubscriptions = new CompositeSubscription();
-        mDetailView.setPresenter(this);
+        this.mDetailView.setPresenter(this);
     }
 
     void showMovie(Movie movie) {
-        String title = movie.getTitle();
 
-        if (Strings.isNullOrEmpty(title)) {
-            mDetailView.hideTitle();
-        }
-        else {
-            mDetailView.showTitle(title);
-        }
         mDetailView.showMovieDetails(movie);
     }
 

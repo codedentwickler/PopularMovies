@@ -6,12 +6,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,6 +47,9 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
     @BindView(R.id.recycler_view)
     RecyclerView mMovieRecyclerView;
 
+    @BindView(R.id.root_view)
+    ConstraintLayout mRootView;
+
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
@@ -66,6 +72,8 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
         mFavouriteAdapter = new FavouriteAdapter(new ArrayList<>(0),
                 movie -> {
                     // Item Click Listener is here
@@ -80,9 +88,8 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_favourite, container, false);
         unbinder = ButterKnife.bind(this,view);
-        setHasOptionsMenu(true);
 
-        mMovieRecyclerView.setAdapter(mFavouriteAdapter);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
 
 //        // Set up progress indicator
 //        mSwipeRefreshLayout.setColorSchemeColors(
@@ -94,7 +101,6 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
 //        mSwipeRefreshLayout.setScrollUpChild(mMovieRecyclerView);
 
 //        mSwipeRefreshLayout.setOnRefreshListener(this::loadMovies);
-        loadMovies();
 
         return view;
     }
@@ -111,13 +117,28 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
         }
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
-        mMovieRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+
+        mMovieRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), numberOfColumns()));
 
         mMovieRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mMovieRecyclerView.setAdapter(mFavouriteAdapter);
+        loadMovies();
+    }
+
+    private int numberOfColumns() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        // You can change this divider to adjust the size of the poster
+        int widthDivider = 800;
+        int width = displayMetrics.widthPixels;
+        int nColumns = width / widthDivider;
+        if (nColumns < 2) return 2;
+        return nColumns;
     }
 
     @Override
@@ -193,7 +214,7 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
     }
 
     private void showMessage(String message) {
-        Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(mRootView, message, Snackbar.LENGTH_LONG).show();
     }
 
     @Override

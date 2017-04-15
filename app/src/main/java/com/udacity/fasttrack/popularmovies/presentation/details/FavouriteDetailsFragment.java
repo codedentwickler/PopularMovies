@@ -5,16 +5,38 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.udacity.fasttrack.popularmovies.R;
 import com.udacity.fasttrack.popularmovies.data.remote.model.Movie;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.udacity.fasttrack.popularmovies.utils.Utils.HttpUtils.IMAGE_POSTER_BASE_URL;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class FavouriteDetailsFragment extends Fragment implements FavouriteDetailsContract.View {
+
+    @BindView(R.id.title)
+    TextView mTitle;
+    @BindView(R.id.poster)
+    ImageView mPosterImage;
+    @BindView(R.id.plot)
+    TextView mPlot;
+    @BindView(R.id.release_date)
+    TextView mReleaseDate;
+    @BindView(R.id.rating)
+    TextView mRating;
+
+    private Unbinder unbinder;
 
     public static final String ARGUMENT_MOVIE = "movie";
     private FavouriteDetailsContract.Presenter mPresenter;
@@ -32,28 +54,35 @@ public class FavouriteDetailsFragment extends Fragment implements FavouriteDetai
     }
 
 
-        @Override
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_favourite_details, container, false);
-
+        View view = inflater.inflate(R.layout.favourite_details, container, false);
+        unbinder = ButterKnife.bind(this, view);
 
         return view;
     }
 
     @Override
-    public void hideTitle() {
-
-    }
-
-    @Override
-    public void showTitle(String title) {
-
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     @Override
     public void showMovieDetails(Movie movie) {
 
+        mPlot.setText(movie.getOverview());
+        mRating.setText(String.format("#.##",movie.getVoteAverage()));
+        mTitle.setText(movie.getOriginalTitle());
+        mReleaseDate.setText(movie.getReleaseDate());
+
+        Glide.with(this.getContext())
+                .load(IMAGE_POSTER_BASE_URL + movie.getPosterPath())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .fitCenter()
+                .dontAnimate()
+                .into(mPosterImage);
     }
 
     @Override
