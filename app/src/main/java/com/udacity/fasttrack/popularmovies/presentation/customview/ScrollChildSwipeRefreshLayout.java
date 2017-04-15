@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.udacity.fasttrack.popularmovies.presentation.favourite;
+package com.udacity.fasttrack.popularmovies.presentation.customview;
 
 import android.content.Context;
 import android.support.v4.view.ViewCompat;

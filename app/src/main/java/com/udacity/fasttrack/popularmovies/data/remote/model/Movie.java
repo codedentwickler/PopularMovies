@@ -51,6 +51,12 @@ public class Movie implements Parcelable {
     @Expose
     private Double voteAverage;
 
+
+
+    public Movie(String originalTitle) {
+        this.originalTitle = originalTitle;
+    }
+
     public String getPosterPath() {
         return posterPath;
     }

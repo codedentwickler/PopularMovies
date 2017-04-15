@@ -9,12 +9,9 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,6 +22,8 @@ import android.widget.ProgressBar;
 
 import com.udacity.fasttrack.popularmovies.R;
 import com.udacity.fasttrack.popularmovies.data.remote.model.Movie;
+import com.udacity.fasttrack.popularmovies.presentation.customview.AutofitRecyclerView;
+import com.udacity.fasttrack.popularmovies.presentation.customview.GridAutofitLayoutManager;
 import com.udacity.fasttrack.popularmovies.presentation.details.FavouriteDetailsActivity;
 import com.udacity.fasttrack.popularmovies.utils.NetworkUtils;
 
@@ -45,13 +44,10 @@ import static com.udacity.fasttrack.popularmovies.presentation.details.Favourite
 public class FavouriteFragment extends Fragment implements FavouriteContract.View{
 
     @BindView(R.id.recycler_view)
-    RecyclerView mMovieRecyclerView;
+    AutofitRecyclerView mMovieRecyclerView;
 
     @BindView(R.id.root_view)
     ConstraintLayout mRootView;
-
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
 
     @BindView(R.id.progress_bar)
     ProgressBar mProgressBar;
@@ -60,6 +56,8 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
 
     private FavouriteAdapter mFavouriteAdapter;
     private FavouriteContract.Presenter mPresenter;
+
+    private static final int GRID_COLUMN_WIDTH = 190 ;
 
     public FavouriteFragment() {
         // Required empty public constructor
@@ -89,7 +87,6 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
         View view = inflater.inflate(R.layout.fragment_favourite, container, false);
         unbinder = ButterKnife.bind(this,view);
 
-        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
 
 //        // Set up progress indicator
 //        mSwipeRefreshLayout.setColorSchemeColors(
@@ -122,23 +119,13 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        GridAutofitLayoutManager layoutManager = new GridAutofitLayoutManager(getActivity(),GRID_COLUMN_WIDTH);
 
-        mMovieRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), numberOfColumns()));
+        mMovieRecyclerView.setLayoutManager(layoutManager);
 
         mMovieRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mMovieRecyclerView.setAdapter(mFavouriteAdapter);
         loadMovies();
-    }
-
-    private int numberOfColumns() {
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        // You can change this divider to adjust the size of the poster
-        int widthDivider = 800;
-        int width = displayMetrics.widthPixels;
-        int nColumns = width / widthDivider;
-        if (nColumns < 2) return 2;
-        return nColumns;
     }
 
     @Override
@@ -150,6 +137,7 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        ActionBar actionBar  = ((AppCompatActivity)getActivity()).getSupportActionBar();
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -158,12 +146,12 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
 
             case R.id.most_popular:
                 editor.putString(getString(R.string.category_key), getString(R.string.pref_most_popular));
-                mToolbar.setTitle(R.string.popular);
+                actionBar.setTitle(R.string.popular);
                 break;
 
             case R.id.top_rated:
                 editor.putString(getString(R.string.category_key), getString(R.string.pref_top_rated));
-                mToolbar.setTitle(R.string.top_rated);
+                actionBar.setTitle(R.string.top_rated);
                 break;
         }
 

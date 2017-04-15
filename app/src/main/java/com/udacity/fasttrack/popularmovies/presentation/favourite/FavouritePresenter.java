@@ -22,6 +22,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 class FavouritePresenter implements FavouriteContract.Presenter {
 
     private static final String TAG = FavouritePresenter.class.getSimpleName();
+
     @NonNull
     private final FavouriteContract.View mFavouriteView;
 
