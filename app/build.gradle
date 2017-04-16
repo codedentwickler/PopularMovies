@@ -35,7 +35,7 @@ android {
     }
 
     buildTypes.each {
-        it.buildConfigField 'String', 'MOVIE_API_KEY', "\"PUT YOUR THEMOVIEDB APIKEY HERE\""
+        it.buildConfigField 'String', 'MOVIE_API_KEY', "\"PLEASE PUT YOUR THEMOVIEDB APIKEY HERE\""
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
