@@ -45,19 +45,8 @@ class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.ViewHolder>
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if (holder != null) {
-            if (movies.size() != 0) {
-                Movie movie = movies.get(position);
 
-                Glide.with(mContext)
-                        .load(IMAGE_POSTER_BASE_URL + movie.getPosterPath())
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .fitCenter()
-                        .dontAnimate()
-                        .into(holder.image);
-                holder.bind(movie, mItemClickListener);
-            }
-        }
+        holder.bind(movies.get(position),mItemClickListener);
     }
 
     @Override
@@ -88,6 +77,13 @@ class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.ViewHolder>
         }
 
         void bind(final Movie movie, final OnItemClickListener listener) {
+
+                Glide.with(itemView.getContext())
+                        .load(IMAGE_POSTER_BASE_URL + movie.getPosterPath())
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .fitCenter()
+                        .dontAnimate()
+                        .into(image);
 
             itemView.setOnClickListener(v -> listener.onItemClick(movie));
         }

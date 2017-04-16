@@ -3,6 +3,7 @@ package com.udacity.fasttrack.popularmovies.presentation.details;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.udacity.fasttrack.popularmovies.R;
 import com.udacity.fasttrack.popularmovies.data.remote.model.Movie;
@@ -12,17 +13,23 @@ import static com.udacity.fasttrack.popularmovies.presentation.details.Favourite
 
 public class FavouriteDetailsActivity extends AppCompatActivity {
 
+    private static final String TAG = FavouriteDetailsActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+        }
 
         // Get the requested movie
         Movie movie = getIntent().getParcelableExtra(ARGUMENT_MOVIE);
+
+        Log.d(TAG,movie.getOriginalTitle() + " was received");
 
         FavouriteDetailsFragment detailsFragment =
                 (FavouriteDetailsFragment) getSupportFragmentManager().findFragmentById(R.id.container);

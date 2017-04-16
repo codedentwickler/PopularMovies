@@ -1,6 +1,7 @@
 package com.udacity.fasttrack.popularmovies.presentation.details;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,7 +54,6 @@ public class FavouriteDetailsFragment extends Fragment implements FavouriteDetai
         return fragment;
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,6 +61,18 @@ public class FavouriteDetailsFragment extends Fragment implements FavouriteDetai
         unbinder = ButterKnife.bind(this, view);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.subscribe();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mPresenter.unSubscribe();
     }
 
     @Override
@@ -73,7 +85,7 @@ public class FavouriteDetailsFragment extends Fragment implements FavouriteDetai
     public void showMovieDetails(Movie movie) {
 
         mPlot.setText(movie.getOverview());
-        mRating.setText(String.format("#.##",movie.getVoteAverage()));
+        mRating.setText(movie.getVoteAverage().toString());
         mTitle.setText(movie.getOriginalTitle());
         mReleaseDate.setText(movie.getReleaseDate());
 

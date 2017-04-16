@@ -13,6 +13,7 @@ android:orientation="vertical">
     android:background="@color/colorAccent"
     android:textColor="@android:color/white"
     android:textSize="26sp"
+    tools:text="@string/jurasic"
     android:paddingLeft="16dp"
     android:gravity="center_vertical"
     android:layout_height="100dp" />

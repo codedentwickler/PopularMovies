@@ -32,7 +32,7 @@ public interface FavouriteContract {
 
     interface Presenter extends BasePresenter {
 
-        void loadMoviesWithPref(String pref);
+        void loadMovies(String pref);
 
         void setNetworkError();
 

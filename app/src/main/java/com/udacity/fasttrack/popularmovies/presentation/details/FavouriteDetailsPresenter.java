@@ -29,15 +29,9 @@ public class FavouriteDetailsPresenter implements FavouriteDetailsContract.Prese
         this.mDetailView.setPresenter(this);
     }
 
-    void showMovie(Movie movie) {
-
-        mDetailView.showMovieDetails(movie);
-    }
-
-
     @Override
     public void subscribe() {
-        showMovie(mCurrentMovie);
+        mDetailView.showMovieDetails(mCurrentMovie);
     }
 
     @Override

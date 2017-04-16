@@ -23,6 +23,8 @@ class FavouritePresenter implements FavouriteContract.Presenter {
 
     private static final String TAG = FavouritePresenter.class.getSimpleName();
 
+    private boolean mFirstLoad = true;
+
     @NonNull
     private final FavouriteContract.View mFavouriteView;
 
@@ -46,7 +48,7 @@ class FavouritePresenter implements FavouriteContract.Presenter {
 
     @Override
     public void subscribe() {
-
+        
     }
 
     @Override
@@ -54,7 +56,15 @@ class FavouritePresenter implements FavouriteContract.Presenter {
         mSubscriptions.clear();
     }
 
-    public void loadMoviesWithPref(String pref) {
+    @Override
+    public void loadMovies(String pref) {
+        // Simplification for sample: a network reload will be forced on first load.
+        loadMoviesWithPref(pref);
+        mFirstLoad = false;
+    }
+
+    private void loadMoviesWithPref(String pref) {
+
         mFavouriteView.setLoadingIndicator(true);
         Subscription subscription = mMovieRepository.fetchMovies(pref)
                 .subscribeOn(mSchedulerProvider.computation())

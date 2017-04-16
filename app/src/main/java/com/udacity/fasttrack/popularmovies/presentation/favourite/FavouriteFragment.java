@@ -1,6 +1,7 @@
 package com.udacity.fasttrack.popularmovies.presentation.favourite;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,6 +13,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,7 +27,6 @@ import android.widget.ProgressBar;
 import com.udacity.fasttrack.popularmovies.R;
 import com.udacity.fasttrack.popularmovies.data.remote.model.Movie;
 import com.udacity.fasttrack.popularmovies.presentation.customview.AutofitRecyclerView;
-import com.udacity.fasttrack.popularmovies.presentation.customview.GridAutofitLayoutManager;
 import com.udacity.fasttrack.popularmovies.presentation.details.FavouriteDetailsActivity;
 import com.udacity.fasttrack.popularmovies.utils.NetworkUtils;
 
@@ -44,7 +47,7 @@ import static com.udacity.fasttrack.popularmovies.presentation.details.Favourite
 public class FavouriteFragment extends Fragment implements FavouriteContract.View{
 
     @BindView(R.id.recycler_view)
-    AutofitRecyclerView mMovieRecyclerView;
+    RecyclerView mMovieRecyclerView;
 
     @BindView(R.id.root_view)
     ConstraintLayout mRootView;
@@ -57,7 +60,7 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
     private FavouriteAdapter mFavouriteAdapter;
     private FavouriteContract.Presenter mPresenter;
 
-    private static final int GRID_COLUMN_WIDTH = 190 ;
+    private final int GRID_COLUMN_WIDTH = 190 ;
 
     public FavouriteFragment() {
         // Required empty public constructor
@@ -87,18 +90,6 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
         View view = inflater.inflate(R.layout.fragment_favourite, container, false);
         unbinder = ButterKnife.bind(this,view);
 
-
-//        // Set up progress indicator
-//        mSwipeRefreshLayout.setColorSchemeColors(
-//                ContextCompat.getColor(getActivity(), R.color.colorPrimary),
-//                ContextCompat.getColor(getActivity(), R.color.colorAccent),
-//                ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark)
-//        );
-//        // Set the scrolling view in the custom SwipeRefreshLayout.
-//        mSwipeRefreshLayout.setScrollUpChild(mMovieRecyclerView);
-
-//        mSwipeRefreshLayout.setOnRefreshListener(this::loadMovies);
-
         return view;
     }
 
@@ -108,24 +99,31 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
                 getString(R.string.pref_most_popular));
 
         if (NetworkUtils.isNetworkAvailable(this.getContext())) {
-            mPresenter.loadMoviesWithPref(category);
+            mPresenter.loadMovies(category);
         } else {
             mPresenter.setNetworkError();
         }
     }
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        GridAutofitLayoutManager layoutManager = new GridAutofitLayoutManager(getActivity(),GRID_COLUMN_WIDTH);
-
+        GridLayoutManager layoutManager = new GridLayoutManager(
+                getActivity(),calculateNoOfColumns());
         mMovieRecyclerView.setLayoutManager(layoutManager);
 
         mMovieRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mMovieRecyclerView.setAdapter(mFavouriteAdapter);
         loadMovies();
+    }
+
+    public int calculateNoOfColumns() {
+        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        int noOfColumns = (int) (dpWidth / GRID_COLUMN_WIDTH);
+        if (noOfColumns < 2) return 2;
+        return noOfColumns;
     }
 
     @Override
@@ -145,11 +143,13 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
         switch (item.getItemId()) {
 
             case R.id.most_popular:
+                item.setCheckable(true);
                 editor.putString(getString(R.string.category_key), getString(R.string.pref_most_popular));
                 actionBar.setTitle(R.string.popular);
                 break;
 
             case R.id.top_rated:
+                item.setCheckable(true);
                 editor.putString(getString(R.string.category_key), getString(R.string.pref_top_rated));
                 actionBar.setTitle(R.string.top_rated);
                 break;
