@@ -18,9 +18,6 @@ public interface FavouriteDetailsContract {
 
     }
 
-    interface Presenter extends BasePresenter{
-
-
-    }
+    interface Presenter extends BasePresenter{}
 
 }

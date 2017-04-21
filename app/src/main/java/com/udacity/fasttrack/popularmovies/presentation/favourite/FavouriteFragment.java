@@ -26,7 +26,6 @@ import android.widget.ProgressBar;
 
 import com.udacity.fasttrack.popularmovies.R;
 import com.udacity.fasttrack.popularmovies.data.remote.model.Movie;
-import com.udacity.fasttrack.popularmovies.presentation.customview.AutofitRecyclerView;
 import com.udacity.fasttrack.popularmovies.presentation.details.FavouriteDetailsActivity;
 import com.udacity.fasttrack.popularmovies.utils.NetworkUtils;
 

@@ -35,7 +35,7 @@ class FavouritePresenter implements FavouriteContract.Presenter {
 
     private final MovieRepository mMovieRepository;
 
-    public FavouritePresenter(@NonNull BaseSchedulerProvider schedulerProvider,
+    FavouritePresenter(@NonNull BaseSchedulerProvider schedulerProvider,
                               @NonNull MovieRepository movieRepository,
                               @NonNull FavouriteContract.View favouriteView) {
         this.mSchedulerProvider = checkNotNull(schedulerProvider, "schedulerProvider cannot be null");
@@ -58,7 +58,7 @@ class FavouritePresenter implements FavouriteContract.Presenter {
 
     @Override
     public void loadMovies(String pref) {
-        // Simplification for sample: a network reload will be forced on first load.
+
         loadMoviesWithPref(pref);
         mFirstLoad = false;
     }
