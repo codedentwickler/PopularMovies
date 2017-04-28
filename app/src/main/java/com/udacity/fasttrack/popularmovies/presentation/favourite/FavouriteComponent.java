@@ -1,6 +1,5 @@
 package com.udacity.fasttrack.popularmovies.presentation.favourite;
 
-import com.udacity.fasttrack.popularmovies.NetworkComponent;
 import com.udacity.fasttrack.popularmovies.utils.FragmentScoped;
 
 import dagger.Component;
