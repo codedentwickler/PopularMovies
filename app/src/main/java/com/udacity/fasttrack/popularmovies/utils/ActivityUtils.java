@@ -16,10 +16,15 @@
 
 package com.udacity.fasttrack.popularmovies.utils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+
+import com.udacity.fasttrack.popularmovies.R;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -43,4 +48,16 @@ public class ActivityUtils {
         transaction.commit();
     }
 
+    public static boolean isTablet(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getBoolean(context.getString(R.string.is_tablet), false);
+
+    }
+
+    public static void setIsTablet(Context context, boolean isTablet) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(context.getString(R.string.is_tablet), isTablet);
+        editor.apply();
+    }
 }

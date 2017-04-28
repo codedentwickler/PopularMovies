@@ -1,14 +1,12 @@
 package com.udacity.fasttrack.popularmovies.presentation.favourite;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +26,7 @@ import com.udacity.fasttrack.popularmovies.R;
 import com.udacity.fasttrack.popularmovies.data.remote.model.Movie;
 import com.udacity.fasttrack.popularmovies.presentation.details.FavouriteDetailsActivity;
 import com.udacity.fasttrack.popularmovies.utils.NetworkUtils;
+import com.udacity.fasttrack.popularmovies.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +37,7 @@ import butterknife.Unbinder;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.udacity.fasttrack.popularmovies.presentation.details.FavouriteDetailsFragment.ARGUMENT_MOVIE;
+import static com.udacity.fasttrack.popularmovies.utils.Utils.showMessage;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -79,7 +79,7 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
                     // Item Click Listener is here
                     mPresenter.openMovieDetails(movie);
 
-                }, this.getContext());
+                });
     }
 
     @Override
@@ -108,13 +108,17 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        setUpMovieRecycler();
+        loadMovies();
+    }
+
+    void setUpMovieRecycler(){
         GridLayoutManager layoutManager = new GridLayoutManager(
                 getActivity(),calculateNoOfColumns());
         mMovieRecyclerView.setLayoutManager(layoutManager);
 
         mMovieRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mMovieRecyclerView.setAdapter(mFavouriteAdapter);
-        loadMovies();
     }
 
     public int calculateNoOfColumns() {
@@ -142,13 +146,11 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
         switch (item.getItemId()) {
 
             case R.id.most_popular:
-                item.setCheckable(true);
                 editor.putString(getString(R.string.category_key), getString(R.string.pref_most_popular));
                 actionBar.setTitle(R.string.popular);
                 break;
 
             case R.id.top_rated:
-                item.setCheckable(true);
                 editor.putString(getString(R.string.category_key), getString(R.string.pref_top_rated));
                 actionBar.setTitle(R.string.top_rated);
                 break;
@@ -192,16 +194,12 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
 
     @Override
     public void showLoadingErrorMessage(String message) {
-        showMessage(getString(R.string.error_loading_movies));
+        showMessage(mRootView, getString(R.string.error_loading_movies));
     }
 
     @Override
     public void showNetworkError() {
-        showMessage(getString(R.string.network_error_text));
-    }
-
-    private void showMessage(String message) {
-        Snackbar.make(mRootView, message, Snackbar.LENGTH_LONG).show();
+        Utils.showNetworkError(mRootView, v -> loadMovies());
     }
 
     @Override

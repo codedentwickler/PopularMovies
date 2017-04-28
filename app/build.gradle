@@ -34,7 +34,7 @@ android {
     }
 
     buildTypes.each {
-        it.buildConfigField 'String', 'MOVIE_API_KEY', "\"PLEASE PUT YOUR THEMOVIEDB APIKEY HERE\""
+        it.buildConfigField 'String', 'MOVIE_API_KEY', "\"ec60121b6afb6ef61a610c643be464ff\""
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -79,6 +79,11 @@ dependencies {
     testCompile("org.powermock:powermock-module-junit4:1.6.2")
     testCompile("org.powermock:powermock-api-mockito:1.6.2")
     testCompile 'com.squareup.okhttp3:mockwebserver:3.4.0-RC1'
+
+// Dagger dependencies
+    compile "com.google.dagger:dagger:2.9"
+    annotationProcessor "com.google.dagger:dagger-compiler:2.9"
+    provided 'javax.annotation:jsr250-api:1.0'
 
     //Dependencies for Espresso
     androidTestCompile 'com.android.support:appcompat-v7:25.3.1'

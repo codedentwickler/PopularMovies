@@ -23,10 +23,6 @@ public class Review implements Parcelable{
     @SerializedName("content")
     private String content;
 
-    public Review(String reviewId) {
-        this.reviewId = reviewId;
-    }
-
     protected Review(Parcel in) {
         reviewId = in.readString();
         author = in.readString();

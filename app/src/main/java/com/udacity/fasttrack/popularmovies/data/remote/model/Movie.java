@@ -1,10 +1,12 @@
 package com.udacity.fasttrack.popularmovies.data.remote.model;
 
+import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.udacity.fasttrack.popularmovies.data.local.FavouritesPersistenceContract.FavoriteEntry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,6 +135,14 @@ public class Movie implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
+    }
+
+
+    public ContentValues toFavoritesContentValues() {
+        ContentValues values = new ContentValues();
+        values.put(FavoriteEntry.COLUMN_NAME_ID, id);
+        values.put(FavoriteEntry.COLUMN_NAME_TITLE, originalTitle);
+        return values;
     }
 
     @Override

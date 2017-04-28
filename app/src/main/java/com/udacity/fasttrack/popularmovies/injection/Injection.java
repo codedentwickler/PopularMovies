@@ -5,8 +5,11 @@ package com.udacity.fasttrack.popularmovies.injection;
  * Created by codedentwickler on 4/12/17.
  */
 
+import android.app.Application;
+
 import com.udacity.fasttrack.popularmovies.data.MovieRepository;
 import com.udacity.fasttrack.popularmovies.data.MovieRepositoryImplementation;
+import com.udacity.fasttrack.popularmovies.data.local.FavouriteService;
 import com.udacity.fasttrack.popularmovies.data.remote.MovieDbRestService;
 import com.udacity.fasttrack.popularmovies.utils.schedulers.BaseSchedulerProvider;
 import com.udacity.fasttrack.popularmovies.utils.schedulers.SchedulerProvider;
@@ -25,11 +28,27 @@ public final class Injection {
     private static MovieDbRestService movieDbRestService;
     private static Retrofit retrofitInstance;
 
+
+    private static Application application;
+
+    private static FavouriteService favouriteService;
+
+    private static Application provideApplicationContext(){
+        if (application == null) {
+            application = new Application();
+        }
+        return application;
+    }
+
+    public static FavouriteService provideFavouriteService(){
+        return new FavouriteService(application.getApplicationContext());
+    }
+
     public static MovieRepository provideMovieRepo() {
         return new MovieRepositoryImplementation(provideMovieDbRestServiceRestService());
     }
 
-    static MovieDbRestService provideMovieDbRestServiceRestService() {
+    private static MovieDbRestService provideMovieDbRestServiceRestService() {
         if (movieDbRestService == null) {
             movieDbRestService = getRetrofitInstance().create(MovieDbRestService.class);
         }
@@ -51,7 +70,8 @@ public final class Injection {
 
     static Retrofit getRetrofitInstance() {
         if (retrofitInstance == null) {
-            Retrofit.Builder retrofit = new Retrofit.Builder().client(Injection.getOkHttpClient()).baseUrl(BASE_URL)
+            Retrofit.Builder retrofit = new Retrofit.Builder().client(Injection.getOkHttpClient()).
+                    baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create());
             retrofitInstance = retrofit.build();

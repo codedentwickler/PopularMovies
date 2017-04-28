@@ -1,5 +1,6 @@
 package com.udacity.fasttrack.popularmovies.data;
 
+import com.udacity.fasttrack.popularmovies.data.local.FavouriteService;
 import com.udacity.fasttrack.popularmovies.data.remote.MovieDbRestService;
 import com.udacity.fasttrack.popularmovies.data.remote.model.Movie;
 import com.udacity.fasttrack.popularmovies.data.remote.model.Review;
@@ -10,6 +11,8 @@ import java.util.List;
 
 import rx.Observable;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by codedentwickler on 4/9/17.
  */
@@ -17,10 +20,14 @@ import rx.Observable;
 public class MovieRepositoryImplementation implements MovieRepository {
 
     private MovieDbRestService movieDbRestService;
+    private FavouriteService favouriteService;
 
-    public MovieRepositoryImplementation(MovieDbRestService movieDbRestService) {
-        this.movieDbRestService = movieDbRestService;
+    public MovieRepositoryImplementation(MovieDbRestService movieDbRestService,
+                                         FavouriteService favouriteService) {
+        this.movieDbRestService = checkNotNull(movieDbRestService);
+        this.favouriteService = checkNotNull(favouriteService);
     }
+
 
     @Override
     public Observable<List<Movie>> fetchMovies(final String category) {
@@ -35,6 +42,36 @@ public class MovieRepositoryImplementation implements MovieRepository {
                     }
                     return Observable.error(o);
                 }));
+    }
+
+    @Override
+    public Observable<Movie> fetchMovieWithId(long movieId) {
+
+        return Observable.defer(() -> movieDbRestService.fetchMovieWithId(movieId))
+
+                .retryWhen(observable -> observable.flatMap(o -> {
+                    if (o instanceof IOException) {
+                        return Observable.just(null);
+                    }
+                    return Observable.error(o);
+                }));
+    }
+
+    @Override
+    public Observable<List<Movie>> fetchMoviesWithId() {
+
+        return Observable.defer(() -> favouriteService.getFavouritesIdAsObservables()
+                .concatMap(Observable::from)
+                .concatMap(id -> movieDbRestService.fetchMovieWithId(id))
+                .toList())
+
+                .retryWhen(observable -> observable.flatMap(o -> {
+                    if (o instanceof IOException) {
+                        return Observable.just(null);
+                    }
+                    return Observable.error(o);
+                }));
+
     }
 
     @Override
@@ -64,6 +101,5 @@ public class MovieRepositoryImplementation implements MovieRepository {
                     return Observable.error(o);
                 }));
     }
-
 
 }

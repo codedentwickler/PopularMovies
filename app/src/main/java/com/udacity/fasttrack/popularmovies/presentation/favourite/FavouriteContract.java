@@ -34,6 +34,8 @@ public interface FavouriteContract {
 
         void loadMovies(String pref);
 
+        void loadFavourites();
+
         void setNetworkError();
 
         void openMovieDetails(@NonNull Movie movie);

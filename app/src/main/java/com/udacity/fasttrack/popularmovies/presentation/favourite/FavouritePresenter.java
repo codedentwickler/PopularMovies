@@ -19,11 +19,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by codedentwickler on 4/12/17.
  */
 
-class FavouritePresenter implements FavouriteContract.Presenter {
+public class FavouritePresenter implements FavouriteContract.Presenter {
 
     private static final String TAG = FavouritePresenter.class.getSimpleName();
-
-    private boolean mFirstLoad = true;
 
     @NonNull
     private final FavouriteContract.View mFavouriteView;
@@ -35,7 +33,7 @@ class FavouritePresenter implements FavouriteContract.Presenter {
 
     private final MovieRepository mMovieRepository;
 
-    FavouritePresenter(@NonNull BaseSchedulerProvider schedulerProvider,
+    public FavouritePresenter(@NonNull BaseSchedulerProvider schedulerProvider,
                               @NonNull MovieRepository movieRepository,
                               @NonNull FavouriteContract.View favouriteView) {
         this.mSchedulerProvider = checkNotNull(schedulerProvider, "schedulerProvider cannot be null");
@@ -48,7 +46,6 @@ class FavouritePresenter implements FavouriteContract.Presenter {
 
     @Override
     public void subscribe() {
-        
     }
 
     @Override
@@ -58,9 +55,13 @@ class FavouritePresenter implements FavouriteContract.Presenter {
 
     @Override
     public void loadMovies(String pref) {
-
         loadMoviesWithPref(pref);
-        mFirstLoad = false;
+    }
+
+    @Override
+    public void loadFavourites() {
+        mFavouriteView.setLoadingIndicator(true);
+
     }
 
     private void loadMoviesWithPref(String pref) {

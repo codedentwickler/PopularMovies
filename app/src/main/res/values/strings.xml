@@ -13,8 +13,8 @@
     <string name="title_activity_favourite_details">Movie Detail</string>
     <string name="action_settings">Settings</string>
     <string name="jurasic">Jurasic World</string>
-    <string name="plot">jhrjkahjkhjkfhdzkfhjkhjkafvghsdvgfdhgvsghdvghasfvghfvdcghvghsdfvghdsavghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhjgvsjhfvjhdfvjhsvjhsdvjhsdfhkjfhajkafkhuihihuihuisdfuiguifuiashuighasuihuighisuhgioughuiohgiousoid</string>
-    <string name="rating">8.0/10</string>
+    <string name="plot">A plot synopsis (called overview in the api)</string>
+    <string name="rating">8.0</string>
     <string name="poster_image_description">Movie Poster</string>
     <string name="release">March 2017</string>
     <string name="running_time">130 mins</string>
@@ -48,6 +48,9 @@
     <string name="movie_detail_reviews_title">Reviews</string>
     <string name="review_sample">Review content</string>
     <string name="author_sample">Author</string>
+    <string name="is_tablet">is_tablet</string>
+    <string name="retry">Retry</string>
+    <string name="undo">Undo</string>
 
 
 </resources>

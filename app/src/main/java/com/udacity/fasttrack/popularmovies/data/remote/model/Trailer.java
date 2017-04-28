@@ -32,9 +32,6 @@ public class Trailer implements Parcelable {
     @SerializedName("type")
     private String type;
 
-    public Trailer(String videoId) {
-        this.videoId = videoId;
-    }
 
     protected Trailer(Parcel in) {
         this.videoId = in.readString();
