@@ -46,6 +46,7 @@ public class FavouriteDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_details);
         unbinder = ButterKnife.bind(this);
 
@@ -58,7 +59,7 @@ public class FavouriteDetailsActivity extends AppCompatActivity {
                         .findFragmentById(R.id.content_details_container);
         if (detailsFragment == null) {
             // Create the fragment
-            detailsFragment = FavouriteDetailsFragment.newInstance(movie);
+            detailsFragment = FavouriteDetailsFragment.newInstance(                                                                                                                                                                                                                                       );
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(), detailsFragment, R.id.content_details_container);
         }
@@ -66,9 +67,9 @@ public class FavouriteDetailsActivity extends AppCompatActivity {
         // Create the presenter
         new FavouriteDetailsPresenter(
                 movie, detailsFragment,
-                Injection.provideFavouriteService(),
+                Injection.provideFavouriteService(this),
                 Injection.provideSchedulerProvider(),
-                Injection.provideMovieRepo());
+                Injection.provideMovieRepo(this));
     }
 
     @Override

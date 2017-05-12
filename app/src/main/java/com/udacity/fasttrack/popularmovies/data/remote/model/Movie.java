@@ -1,8 +1,10 @@
 package com.udacity.fasttrack.popularmovies.data.remote.model;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -10,6 +12,14 @@ import com.udacity.fasttrack.popularmovies.data.local.FavouritesPersistenceContr
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.udacity.fasttrack.popularmovies.data.local.FavouritesPersistenceContract.FavoriteEntry.COLUMN_NAME_BACKDROP_URL;
+import static com.udacity.fasttrack.popularmovies.data.local.FavouritesPersistenceContract.FavoriteEntry.COLUMN_NAME_ID;
+import static com.udacity.fasttrack.popularmovies.data.local.FavouritesPersistenceContract.FavoriteEntry.COLUMN_NAME_ORIGINAL_TITLE;
+import static com.udacity.fasttrack.popularmovies.data.local.FavouritesPersistenceContract.FavoriteEntry.COLUMN_NAME_OVERVIEW;
+import static com.udacity.fasttrack.popularmovies.data.local.FavouritesPersistenceContract.FavoriteEntry.COLUMN_NAME_POSTER_URL;
+import static com.udacity.fasttrack.popularmovies.data.local.FavouritesPersistenceContract.FavoriteEntry.COLUMN_NAME_RELEASE_DATE;
+import static com.udacity.fasttrack.popularmovies.data.local.FavouritesPersistenceContract.FavoriteEntry.COLUMN_NAME_VOTE_AVERAGE;
 
 /**
  * Created by codedentwickler on 4/9/17.
@@ -41,10 +51,6 @@ public class Movie implements Parcelable {
     @Expose
     private String originalTitle;
 
-    @SerializedName("original_language")
-    @Expose
-    private String originalLanguage;
-
     @SerializedName("backdrop_path")
     @Expose
     private String backdropPath;
@@ -53,6 +59,33 @@ public class Movie implements Parcelable {
     @Expose
     private Double voteAverage;
 
+    public Movie(String posterPath,
+                 String overview,
+                 String releaseDate,
+                 long id,
+                 String originalTitle,
+                 String backdropPath,
+                 Double voteAverage) {
+        this.posterPath = posterPath;
+        this.overview = overview;
+        this.releaseDate = releaseDate;
+        this.id = id;
+        this.originalTitle = originalTitle;
+        this.backdropPath = backdropPath;
+        this.voteAverage = voteAverage;
+    }
+
+    public static Movie parseCursorToMovie(Cursor cursor){
+        String posterPath = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_POSTER_URL));
+        String overview = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_OVERVIEW));
+        String releaseDate = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_RELEASE_DATE));
+        long id = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_ID));
+        String originalTitle = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_ORIGINAL_TITLE));
+        String backdropPath = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_BACKDROP_URL));
+        Double voteAverage = cursor.getDouble(cursor.getColumnIndex(COLUMN_NAME_VOTE_AVERAGE));
+
+        return new Movie(posterPath, overview, releaseDate, id, originalTitle, backdropPath, voteAverage);
+    }
 
 
     public Movie(String originalTitle) {
@@ -108,14 +141,6 @@ public class Movie implements Parcelable {
         this.id = id;
     }
 
-    public String getOriginalLanguage() {
-        return originalLanguage;
-    }
-
-    public void setOriginalLanguage(String originalLanguage) {
-        this.originalLanguage = originalLanguage;
-    }
-
     public String getBackdropPath() {
         return backdropPath;
     }
@@ -137,11 +162,19 @@ public class Movie implements Parcelable {
         return 0;
     }
 
-
-    public ContentValues toFavoritesContentValues() {
+    public ContentValues toFavoritesContentValues(@NonNull String localPosterPath,
+                                                  @NonNull String localBackdropPath) {
         ContentValues values = new ContentValues();
-        values.put(FavoriteEntry.COLUMN_NAME_ID, id);
-        values.put(FavoriteEntry.COLUMN_NAME_TITLE, originalTitle);
+        values.put(FavoriteEntry.COLUMN_NAME_ID, this.id);
+        values.put(COLUMN_NAME_POSTER_URL, this.posterPath);
+        values.put(FavoriteEntry.COLUMN_NAME_BACKDROP_URL, this.backdropPath);
+        values.put(FavoriteEntry.COLUMN_NAME_ORIGINAL_TITLE, this.originalTitle);
+        values.put(FavoriteEntry.COLUMN_NAME_OVERVIEW, this.overview);
+        values.put(FavoriteEntry.COLUMN_NAME_RELEASE_DATE, this.releaseDate);
+        values.put(FavoriteEntry.COLUMN_NAME_VOTE_AVERAGE, this.voteAverage);
+        values.put(FavoriteEntry.COLUMN_NAME_LOCAL_POSTER_URL, localPosterPath);
+        values.put(FavoriteEntry.COLUMN_NAME_LOCAL_BACKDROP_URL, localBackdropPath);
+
         return values;
     }
 
@@ -160,7 +193,7 @@ public class Movie implements Parcelable {
     protected Movie(Parcel in) {
         this.id = in.readLong();
         this.originalTitle = in.readString();
-        this.genreIds = new ArrayList<Integer>();
+        this.genreIds = new ArrayList<>();
         in.readList(this.genreIds, List.class.getClassLoader());
         this.overview = in.readString();
         this.releaseDate = in.readString();

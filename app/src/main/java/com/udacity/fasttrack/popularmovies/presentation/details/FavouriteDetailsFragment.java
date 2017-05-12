@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -34,6 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static android.view.View.GONE;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.udacity.fasttrack.popularmovies.utils.Utils.HttpUtils.IMAGE_POSTER_BASE_URL;
 import static com.udacity.fasttrack.popularmovies.utils.Utils.HttpUtils.WATCH_ON_YOUTUBE_URL;
@@ -49,7 +51,6 @@ public class FavouriteDetailsFragment extends Fragment implements FavouriteDetai
 
     private static final String MOVIE_REVIEWS_KEY = "movie_reviews_key";
     private static final String MOVIE_TRAILERS_KEY = "movie_trailers_key";
-
 
     @BindView(R.id.image_movie_detail_poster)
     ImageView movieImagePoster;
@@ -67,6 +68,9 @@ public class FavouriteDetailsFragment extends Fragment implements FavouriteDetai
     CardView cardMovieOverview;
     @BindView(R.id.root_view)
     RelativeLayout mRootLayout;
+    @Nullable
+    @BindView(R.id.noMovies_text_view)
+    TextView mEmptyTextView;
 
     @BindView(R.id.card_movie_videos)
     CardView cardMovieTrailers;
@@ -85,8 +89,6 @@ public class FavouriteDetailsFragment extends Fragment implements FavouriteDetai
     private TrailerAdapter mTrailerAdapter;
     private ReviewAdapter mReviewAdapter;
 
-    private Movie mCurrentMovie;
-
     private FavouriteDetailsContract.Presenter mPresenter;
 
     public FavouriteDetailsFragment() {
@@ -96,27 +98,18 @@ public class FavouriteDetailsFragment extends Fragment implements FavouriteDetai
         return new FavouriteDetailsFragment();
     }
 
-    public static FavouriteDetailsFragment newInstance(Movie movie) {
-
-        Bundle arguments = new Bundle();
-        arguments.putParcelable(ARGUMENT_MOVIE, movie);
-        FavouriteDetailsFragment fragment = new FavouriteDetailsFragment();
-        fragment.setArguments(arguments);
-        return fragment;
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mTrailerAdapter = new TrailerAdapter(new ArrayList<>(0),
                 trailer -> {
-                    // Item Click Listener is here
+                    // Trailer Click Listener is here
                     mPresenter.openTrailer(trailer);
                 });
 
         mReviewAdapter = new ReviewAdapter(new ArrayList<>(0),
                 review -> {
-                    // Item Click Listener is here
+                    // Review Click Listener is here
                     mPresenter.openReview(review);
                 });
     }
@@ -126,10 +119,8 @@ public class FavouriteDetailsFragment extends Fragment implements FavouriteDetai
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.favourite_details, container, false);
         unbinder = ButterKnife.bind(this, view);
-        mCurrentMovie = getArguments().getParcelable(ARGUMENT_MOVIE);
 
         setupCardsElevation();
-
         return view;
     }
 
@@ -140,11 +131,14 @@ public class FavouriteDetailsFragment extends Fragment implements FavouriteDetai
         setUpReviewsRecycler();
 
         mFavouriteFab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        mFavouriteFab.setOnClickListener(v -> onFabClicked());
+        if (mFavouriteFab != null) {
+            mFavouriteFab.setOnClickListener(v -> onFabClicked());
+
+        }
     }
 
     private void onFabClicked() {
-        mPresenter.onFabClicked(mCurrentMovie);
+        mPresenter.toggleFavourite();
     }
 
     @Override
@@ -163,7 +157,7 @@ public class FavouriteDetailsFragment extends Fragment implements FavouriteDetai
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null && isActive()) {
             mTrailerAdapter.replaceData(savedInstanceState.getParcelableArrayList(MOVIE_TRAILERS_KEY));
             mReviewAdapter.replaceData(savedInstanceState.getParcelableArrayList(MOVIE_REVIEWS_KEY));
         }
@@ -173,6 +167,10 @@ public class FavouriteDetailsFragment extends Fragment implements FavouriteDetai
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mReviewsRecyclerView.setLayoutManager(layoutManager);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
+                mReviewsRecyclerView.getContext(), layoutManager.getOrientation());
+        mReviewsRecyclerView.addItemDecoration(dividerItemDecoration);
 
         mReviewsRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mReviewsRecyclerView.setAdapter(mReviewAdapter);
@@ -203,7 +201,7 @@ public class FavouriteDetailsFragment extends Fragment implements FavouriteDetai
     @Override
     public void updateMovieTrailersCardVisibilty() {
         if (mTrailerAdapter == null || mTrailerAdapter.getItemCount() == 0) {
-            cardMovieTrailers.setVisibility(View.GONE);
+            cardMovieTrailers.setVisibility(GONE);
         } else {
             cardMovieTrailers.setVisibility(View.VISIBLE);
         }
@@ -212,7 +210,7 @@ public class FavouriteDetailsFragment extends Fragment implements FavouriteDetai
     @Override
     public void updateMovieReviewsCardVisibility() {
         if (mReviewAdapter == null || mReviewAdapter.getItemCount() == 0) {
-            cardMovieReviews.setVisibility(View.GONE);
+            cardMovieReviews.setVisibility(GONE);
         } else {
             cardMovieReviews.setVisibility(View.VISIBLE);
         }
@@ -246,6 +244,8 @@ public class FavouriteDetailsFragment extends Fragment implements FavouriteDetai
     public void showMovieDetails(Movie movie) {
 
         if (movie != null) {
+            mRootLayout.setVisibility(View.VISIBLE);
+            mFavouriteFab.setVisibility(View.VISIBLE);
             movieOverview.setText(movie.getOverview());
             movieUserRating.setText(String.valueOf(movie.getVoteAverage()));
             movieOriginalTitle.setText(movie.getOriginalTitle());
@@ -259,6 +259,10 @@ public class FavouriteDetailsFragment extends Fragment implements FavouriteDetai
                     .into(movieImagePoster);
             mPresenter.loadReviews(movie.getId());
             mPresenter.loadTrailers(movie.getId());
+        } else {
+            mEmptyTextView.setVisibility(View.VISIBLE);
+            mFavouriteFab.setVisibility(GONE);
+            mRootLayout.setVisibility(GONE);
         }
     }
 
@@ -284,22 +288,24 @@ public class FavouriteDetailsFragment extends Fragment implements FavouriteDetai
 
     @Override
     public void notifyOnFavouriteRemoved() {
-        showMessage(mRootLayout, getString(R.string.message_removed_from_favorites),
-                v -> mPresenter.addFavourite(mCurrentMovie));
         deactivateFab();
+        showMessage(mRootLayout, getString(R.string.message_removed_from_favorites),
+                v -> mPresenter.addFavourite());
     }
 
     @Override
     public void notifyOnFavouriteAdded() {
-        showMessage(mRootLayout, getString(R.string.message_added_to_favorites),
-                v -> mPresenter.removeFavourite(mCurrentMovie));
         activateFab();
+        showMessage(mRootLayout, getString(R.string.message_added_to_favorites),
+                v -> mPresenter.removeFavourite());
     }
 
+    @Override
     public void activateFab() {
         mFavouriteFab.setImageResource(R.drawable.ic_favorite_white);
     }
 
+    @Override
     public void deactivateFab() {
         mFavouriteFab.setImageResource(R.drawable.ic_favorite_white_border);
     }
@@ -330,6 +336,6 @@ public class FavouriteDetailsFragment extends Fragment implements FavouriteDetai
 
     @Override
     public void showNetworkError() {
-        Utils.showNetworkError(mRootLayout, v -> mPresenter.loadMovie(mCurrentMovie));
+        Utils.showNetworkError(mRootLayout, v -> mPresenter.loadMovie());
     }
 }

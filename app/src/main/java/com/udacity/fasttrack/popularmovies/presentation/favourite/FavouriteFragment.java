@@ -21,10 +21,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.udacity.fasttrack.popularmovies.R;
 import com.udacity.fasttrack.popularmovies.data.remote.model.Movie;
 import com.udacity.fasttrack.popularmovies.presentation.details.FavouriteDetailsActivity;
+import com.udacity.fasttrack.popularmovies.utils.ActivityUtils;
 import com.udacity.fasttrack.popularmovies.utils.NetworkUtils;
 import com.udacity.fasttrack.popularmovies.utils.Utils;
 
@@ -50,6 +52,9 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
 
     @BindView(R.id.root_view)
     ConstraintLayout mRootView;
+
+    @BindView(R.id.noMovies_text_text)
+    TextView noMoviesTextView;
 
     @BindView(R.id.progress_bar)
     ProgressBar mProgressBar;
@@ -98,8 +103,13 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
                 getString(R.string.pref_most_popular));
 
         if (NetworkUtils.isNetworkAvailable(this.getContext())) {
-            mPresenter.loadMovies(category);
+            if (category.equals(getString(R.string.pref_favourite))){
+                mPresenter.loadFavourites();
+            } else {
+                mPresenter.loadMovies(category);
+            }
         } else {
+            mPresenter.loadFavourites();
             mPresenter.setNetworkError();
         }
     }
@@ -124,6 +134,9 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
     public int calculateNoOfColumns() {
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        if (ActivityUtils.isTablet(getActivity())){
+            dpWidth = dpWidth / 3;
+        }
         int noOfColumns = (int) (dpWidth / GRID_COLUMN_WIDTH);
         if (noOfColumns < 2) return 2;
         return noOfColumns;
@@ -148,17 +161,28 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
             case R.id.most_popular:
                 editor.putString(getString(R.string.category_key), getString(R.string.pref_most_popular));
                 actionBar.setTitle(R.string.popular);
+                // Commit the edits!
+                editor.apply();
+                loadMovies();
                 break;
 
             case R.id.top_rated:
                 editor.putString(getString(R.string.category_key), getString(R.string.pref_top_rated));
                 actionBar.setTitle(R.string.top_rated);
+                // Commit the edits!
+                editor.apply();
+                loadMovies();
                 break;
+
+            case R.id.favourite:
+                editor.putString(getString(R.string.category_key),
+                        getString(R.string.pref_favourite));
+                actionBar.setTitle(R.string.favorites_grid_title);
+                // Commit the edits!
+                editor.apply();
+                loadMovies();
         }
 
-        // Commit the edits!
-        editor.apply();
-        loadMovies();
         return true;
     }
 
@@ -187,7 +211,6 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
 
     @Override
     public void showMoviesResults(List<Movie> movies) {
-
         mFavouriteAdapter.replaceData(movies);
         mMovieRecyclerView.setVisibility(View.VISIBLE);
      }
@@ -199,6 +222,8 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
 
     @Override
     public void showNetworkError() {
+        noMoviesTextView.setText(R.string.network_error);
+        noMoviesTextView.setVisibility(View.VISIBLE);
         Utils.showNetworkError(mRootView, v -> loadMovies());
     }
 
@@ -207,15 +232,14 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
         if (active) showLoading();
         else hideLoading();
 
-        // Make sure setRefreshing() is called after the layout is done with everything else.
-//        mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(active));
     }
 
     @Override
     public void showMovieDetailsUi(Movie movie) {
-        Intent intent = new Intent(this.getContext(), FavouriteDetailsActivity.class);
-        intent.putExtra(ARGUMENT_MOVIE, movie);
-        startActivity(intent);
+            Intent intent = new Intent(this.getContext(), FavouriteDetailsActivity.class);
+            intent.putExtra(ARGUMENT_MOVIE, movie);
+            startActivity(intent);
+
     }
 
     @Override
@@ -223,14 +247,24 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
         return isAdded();
     }
 
-    public void showLoading() {
+    private void showLoading() {
         mMovieRecyclerView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
+        noMoviesTextView.setVisibility(View.GONE);
     }
 
-    public void hideLoading() {
+    private void hideLoading() {
         mMovieRecyclerView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
+        noMoviesTextView.setVisibility(View.GONE);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        if (mFavouriteAdapter.getItemCount() == 0 && sharedPreferences.getString
+                (getString(R.string.category_key), getString(R.string.pref_most_popular))
+                .equals(getString(R.string.pref_favourite))) {
+            noMoviesTextView.setText(R.string.no_favorite_movies);
+            noMoviesTextView.setVisibility(View.GONE);
+        }
     }
 
 }

@@ -19,8 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class FavouriteTabletPresenter implements FavouriteContract.Presenter
         , FavouriteDetailsContract.Presenter {
 
-    private static final String TAG = FavouritePresenter.class.getSimpleName();
-
     private FavouritePresenter mFavouritePresenter;
     private FavouriteDetailsPresenter mDetailsPresenter;
 
@@ -57,7 +55,7 @@ public class FavouriteTabletPresenter implements FavouriteContract.Presenter
 
     @Override
     public void loadFavourites() {
-
+        mFavouritePresenter.loadFavourites();
     }
 
     @Override
@@ -67,12 +65,13 @@ public class FavouriteTabletPresenter implements FavouriteContract.Presenter
 
     @Override
     public void openMovieDetails(@NonNull Movie movie) {
-        mFavouritePresenter.openMovieDetails(movie);
+        mDetailsPresenter.setCurrentMovie(movie);
+        mDetailsPresenter.loadMovie();
     }
 
     @Override
-    public void loadMovie(Movie movie) {
-        mDetailsPresenter.loadMovie(movie);
+    public void loadMovie() {
+        mDetailsPresenter.loadMovie();
     }
 
     @Override
@@ -86,6 +85,11 @@ public class FavouriteTabletPresenter implements FavouriteContract.Presenter
     }
 
     @Override
+    public void setCurrentMovie(Movie movie) {
+        mDetailsPresenter.setCurrentMovie(movie);
+    }
+
+    @Override
     public void openReview(Review review) {
         mDetailsPresenter.openReview(review);
     }
@@ -96,18 +100,18 @@ public class FavouriteTabletPresenter implements FavouriteContract.Presenter
     }
 
     @Override
-    public void addFavourite(Movie movie) {
-        mDetailsPresenter.addFavourite(movie);
+    public void addFavourite() {
+        mDetailsPresenter.addFavourite();
     }
 
     @Override
-    public void removeFavourite(Movie movie) {
-        mDetailsPresenter.removeFavourite(movie);
+    public void removeFavourite() {
+        mDetailsPresenter.removeFavourite();
     }
 
     @Override
-    public void onFabClicked(Movie movie) {
-        mDetailsPresenter.onFabClicked(movie);
+    public void toggleFavourite() {
+        mDetailsPresenter.toggleFavourite();
     }
 
 }

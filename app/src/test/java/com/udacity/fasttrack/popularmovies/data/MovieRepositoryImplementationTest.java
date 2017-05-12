@@ -1,6 +1,5 @@
 package com.udacity.fasttrack.popularmovies.data;
 
-import com.udacity.fasttrack.popularmovies.data.local.FavouriteService;
 import com.udacity.fasttrack.popularmovies.data.remote.MovieDbRestService;
 import com.udacity.fasttrack.popularmovies.data.remote.model.Movie;
 import com.udacity.fasttrack.popularmovies.data.remote.model.MoviesList;
@@ -42,13 +41,10 @@ public class MovieRepositoryImplementationTest {
     @Mock
     private MovieDbRestService mMovieDbRestService;
 
-    @Mock
-    private FavouriteService mFavouriteService;
-
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-        mMovieRepository = new MovieRepositoryImplementation(mMovieDbRestService, mFavouriteService);
+        mMovieRepository = new MovieRepositoryImplementation(mMovieDbRestService);
     }
 
     @Test

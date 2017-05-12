@@ -23,8 +23,20 @@ tools:context="com.udacity.fasttrack.popularmovies.presentation.favourite.Favour
 
 </android.support.v7.widget.RecyclerView>
 
+    <TextView
+        android:id="@+id/noMovies_text_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="@dimen/textSize"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:gravity="center"
+        android:text="@string/no_movies_all" />
 
-<ProgressBar
+
+    <ProgressBar
     android:id="@+id/progress_bar"
     style="@style/Widget.AppCompat.ProgressBar"
     android:layout_width="60dp"

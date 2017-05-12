@@ -26,8 +26,11 @@ public interface FavouriteDetailsContract {
 
         void notifyOnFavouriteRemoved();
 
-        void notifyOnFavouriteAdded();
+        void activateFab();
 
+        void deactivateFab();
+
+        void notifyOnFavouriteAdded();
 
         void playTrailer(Trailer trailer);
 
@@ -41,20 +44,22 @@ public interface FavouriteDetailsContract {
 
     interface Presenter extends BasePresenter{
 
-        void loadMovie(Movie movie);
+        void loadMovie();
 
         void loadReviews(long movieId);
 
         void loadTrailers(long movieId);
 
+        void setCurrentMovie(Movie movie);
+
         void openReview(Review review);
 
         void openTrailer(Trailer trailer);
 
-        void addFavourite(Movie movie);
+        void addFavourite();
 
-        void removeFavourite(Movie movie);
+        void removeFavourite();
 
-        void onFabClicked(Movie movie);
+        void toggleFavourite();
     }
 }

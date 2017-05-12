@@ -85,21 +85,21 @@ public class MvpController {
         favouriteFragment.setPresenter(mTabletPresenter);
         detailsFragment.setPresenter(mTabletPresenter);
         mTabletPresenter.setDetailsPresenter(detailsPresenter);
-
     }
 
     @NonNull
     private FavouriteDetailsPresenter createDetailPresenter(FavouriteDetailsFragment detailsFragment){
         return new FavouriteDetailsPresenter(
                 mCurrentMovie, detailsFragment,
-                Injection.provideFavouriteService(),
+                Injection.provideFavouriteService(mFragmentActivity),
                 Injection.provideSchedulerProvider(),
-                Injection.provideMovieRepo());
+                Injection.provideMovieRepo(mFragmentActivity));
     }
 
     private FavouritePresenter createListPresenter(FavouriteFragment favouriteFragment) {
         mFavouritePresenter = new FavouritePresenter(Injection.provideSchedulerProvider(),
-                Injection.provideMovieRepo(),
+                Injection.provideMovieRepo(mFragmentActivity),
+                Injection.provideFavouriteService(mFragmentActivity),
                 favouriteFragment);
 
         return mFavouritePresenter;
@@ -124,13 +124,12 @@ public class MvpController {
                 (FavouriteDetailsFragment) getFragmentById(R.id.content_frame_detail);
         if (detailsFragment == null) {
             // Create the fragment
-            detailsFragment = FavouriteDetailsFragment.newInstance(mCurrentMovie);
+            detailsFragment = FavouriteDetailsFragment.newInstance();
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(), detailsFragment, R.id.content_frame_detail);
         }
         return detailsFragment;
     }
-
 
     private Fragment getFragmentById(int contentFrame_detail) {
         return getSupportFragmentManager().findFragmentById(contentFrame_detail);

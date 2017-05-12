@@ -84,7 +84,6 @@ class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.ViewHolder>
 
             itemView.setOnClickListener(v -> listener.onItemClick(movie));
         }
-
     }
     interface OnItemClickListener {
         void onItemClick(Movie movie);

@@ -1,6 +1,5 @@
 package com.udacity.fasttrack.popularmovies.data;
 
-import com.udacity.fasttrack.popularmovies.data.local.FavouriteService;
 import com.udacity.fasttrack.popularmovies.data.remote.MovieDbRestService;
 import com.udacity.fasttrack.popularmovies.data.remote.model.Movie;
 import com.udacity.fasttrack.popularmovies.data.remote.model.Review;
@@ -19,15 +18,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class MovieRepositoryImplementation implements MovieRepository {
 
+    private static final String TAG = MovieRepositoryImplementation.class.getSimpleName();
     private MovieDbRestService movieDbRestService;
-    private FavouriteService favouriteService;
 
-    public MovieRepositoryImplementation(MovieDbRestService movieDbRestService,
-                                         FavouriteService favouriteService) {
+    public MovieRepositoryImplementation(MovieDbRestService movieDbRestService) {
         this.movieDbRestService = checkNotNull(movieDbRestService);
-        this.favouriteService = checkNotNull(favouriteService);
     }
-
 
     @Override
     public Observable<List<Movie>> fetchMovies(final String category) {
@@ -44,35 +40,25 @@ public class MovieRepositoryImplementation implements MovieRepository {
                 }));
     }
 
-    @Override
-    public Observable<Movie> fetchMovieWithId(long movieId) {
 
-        return Observable.defer(() -> movieDbRestService.fetchMovieWithId(movieId))
-
-                .retryWhen(observable -> observable.flatMap(o -> {
-                    if (o instanceof IOException) {
-                        return Observable.just(null);
-                    }
-                    return Observable.error(o);
-                }));
-    }
-
-    @Override
-    public Observable<List<Movie>> fetchMoviesWithId() {
-
-        return Observable.defer(() -> favouriteService.getFavouritesIdAsObservables()
-                .concatMap(Observable::from)
-                .concatMap(id -> movieDbRestService.fetchMovieWithId(id))
-                .toList())
-
-                .retryWhen(observable -> observable.flatMap(o -> {
-                    if (o instanceof IOException) {
-                        return Observable.just(null);
-                    }
-                    return Observable.error(o);
-                }));
-
-    }
+//    @Override
+//    public Observable<Movie> fetchMovieWithId(long id) {
+//
+//        Log.e(TAG, "fetchMoviesWithId at the beginning");
+//
+//        return Observable.defer(()  -> movieDbRestService.fetchMovieWithId(id))
+//
+//                .retryWhen(observable -> observable.flatMap(o -> {
+//                    if (o instanceof IOException) {
+//                        Log.e(TAG, o.getMessage());
+//                        Log.e(TAG, "fetchMoviesWithId retried");
+//
+//                        return Observable.just(null);
+//                    }
+//                    return Observable.error(o);
+//                }));
+//
+//    }
 
     @Override
     public Observable<List<Trailer>> getMovieTrailers(long movieId) {

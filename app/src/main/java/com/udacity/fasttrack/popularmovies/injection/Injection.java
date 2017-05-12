@@ -6,6 +6,7 @@ package com.udacity.fasttrack.popularmovies.injection;
  */
 
 import android.app.Application;
+import android.content.Context;
 
 import com.udacity.fasttrack.popularmovies.data.MovieRepository;
 import com.udacity.fasttrack.popularmovies.data.MovieRepositoryImplementation;
@@ -40,11 +41,11 @@ public final class Injection {
         return application;
     }
 
-    public static FavouriteService provideFavouriteService(){
-        return new FavouriteService(application.getApplicationContext());
+    public static FavouriteService provideFavouriteService(Context context){
+        return new FavouriteService(context, provideSchedulerProvider() );
     }
 
-    public static MovieRepository provideMovieRepo() {
+    public static MovieRepository provideMovieRepo(Context context) {
         return new MovieRepositoryImplementation(provideMovieDbRestServiceRestService());
     }
 
@@ -59,7 +60,7 @@ public final class Injection {
         return SchedulerProvider.getInstance();
     }
 
-    static OkHttpClient getOkHttpClient() {
+    private static OkHttpClient getOkHttpClient() {
         if (okHttpClient == null) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
@@ -68,7 +69,7 @@ public final class Injection {
         return okHttpClient;
     }
 
-    static Retrofit getRetrofitInstance() {
+    private static Retrofit getRetrofitInstance() {
         if (retrofitInstance == null) {
             Retrofit.Builder retrofit = new Retrofit.Builder().client(Injection.getOkHttpClient()).
                     baseUrl(BASE_URL)

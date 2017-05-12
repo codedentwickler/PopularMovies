@@ -16,10 +16,6 @@ public interface MovieRepository {
 
     Observable<List<Movie>> fetchMovies(String category);
 
-    Observable<Movie> fetchMovieWithId(long movieId);
-
-    Observable<List<Movie>> fetchMoviesWithId();
-
     Observable<List<Trailer>> getMovieTrailers(long movieId);
 
     Observable<List<Review>> getMovieReviews(long movieId);

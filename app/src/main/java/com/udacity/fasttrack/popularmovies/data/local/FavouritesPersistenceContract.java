@@ -11,7 +11,7 @@ import com.udacity.fasttrack.popularmovies.BuildConfig;
 
 public final class FavouritesPersistenceContract {
 
-    public static final String CONTENT_AUTHORITY = BuildConfig.APPLICATION_ID;
+    static final String CONTENT_AUTHORITY = BuildConfig.APPLICATION_ID;
 
     // To prevent someone from accidentally instantiating the contract class,
     // give it an empty constructor.
@@ -23,23 +23,46 @@ public final class FavouritesPersistenceContract {
         private static Uri.Builder builder = new Uri.Builder()
                 .scheme("content").authority(CONTENT_AUTHORITY);
 
-        public static final Uri BASE_CONTENT_URI = Uri.parse(builder.build().toString());
+        static final Uri BASE_CONTENT_URI = Uri.parse(builder.build().toString());
 
-        private static final String PATH_PET = "favourite";
-        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_PET);
+        private static final String PATH_FAVOURITE = "favourite";
+        static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_FAVOURITE);
 
-        public static final String TABLE_NAME = "favourite";
+        static final String TABLE_NAME = "favourite";
 
-        public static final String _ID = BaseColumns._ID;
-        public static final String COLUMN_NAME_TITLE = "title";
+        static final String _ID = BaseColumns._ID;
+
         public static final String COLUMN_NAME_ID = "id";
 
+        public static final String COLUMN_NAME_POSTER_URL = "poster_path";
 
-        public static String[] FAVOURITES_COLUMNS = new String[]{
-                FavoriteEntry._ID,
-                FavoriteEntry.COLUMN_NAME_ID,
-                FavouritesPersistenceContract.FavoriteEntry.COLUMN_NAME_TITLE };
-        
+        public static final String COLUMN_NAME_OVERVIEW = "overview";
+
+        public static final String COLUMN_NAME_RELEASE_DATE = "release_date";
+
+        public static final String COLUMN_NAME_ORIGINAL_TITLE = "original_title";
+
+        public static final String COLUMN_NAME_BACKDROP_URL = "backdrop_path";
+
+        public static final String COLUMN_NAME_VOTE_AVERAGE = "vote_average";
+
+        public static final String COLUMN_NAME_LOCAL_BACKDROP_URL = "local_backdrop_path";
+
+        public static final String COLUMN_NAME_LOCAL_POSTER_URL = "local_poster_path";
+
+
+        static String[] FAVOURITES_COLUMNS = new String[]{
+                _ID,
+                COLUMN_NAME_ID,
+                COLUMN_NAME_POSTER_URL,
+                COLUMN_NAME_OVERVIEW,
+                COLUMN_NAME_RELEASE_DATE,
+                COLUMN_NAME_ORIGINAL_TITLE,
+                COLUMN_NAME_BACKDROP_URL,
+                COLUMN_NAME_VOTE_AVERAGE,
+                COLUMN_NAME_LOCAL_BACKDROP_URL,
+                COLUMN_NAME_LOCAL_POSTER_URL
+        };
     }
 
 }

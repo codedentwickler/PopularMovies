@@ -25,13 +25,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class FavouriteDetailsPresenter implements FavouriteDetailsContract.Presenter {
 
     private static final String TAG = FavouriteDetailsFragment.class.getSimpleName();
-    private final Movie mCurrentMovie;
+    private Movie mCurrentMovie;
 
     private final FavouriteDetailsContract.View mDetailView;
 
     private final MovieRepository mMovieRepository;
     private final BaseSchedulerProvider mSchedulerProvider;
-
     private final FavouriteService mFavouriteService;
 
     @NonNull
@@ -46,8 +45,7 @@ public class FavouriteDetailsPresenter implements FavouriteDetailsContract.Prese
         this.mDetailView = mDetailView;
         this.mFavouriteService = checkNotNull(favouriteService);
         this.mSchedulerProvider = checkNotNull(schedulerProvider, "schedulerProvider cannot be null");
-        this.mMovieRepository = checkNotNull(movieRepository,"movieRepository cannot be null");
-
+        this.mMovieRepository = checkNotNull(movieRepository, "movieRepository cannot be null");
 
         mSubscriptions = new CompositeSubscription();
         this.mDetailView.setPresenter(this);
@@ -55,19 +53,18 @@ public class FavouriteDetailsPresenter implements FavouriteDetailsContract.Prese
 
     @Override
     public void subscribe() {
-        loadMovie(mCurrentMovie);
+        loadMovie();
     }
 
     @Override
     public void unSubscribe() {
         mSubscriptions.clear();
-
     }
 
     @Override
-    public void loadMovie(Movie movie) {
-        mDetailView.showMovieDetails(movie);
-
+    public void loadMovie() {
+        mDetailView.showMovieDetails(mCurrentMovie);
+        updateFavouriteFabStatus();
     }
 
     @Override
@@ -79,11 +76,12 @@ public class FavouriteDetailsPresenter implements FavouriteDetailsContract.Prese
                         .observeOn(mSchedulerProvider.ui())
                         .subscribe(new Subscriber<List<Review>>() {
                             @Override
-                            public void onCompleted() {}
+                            public void onCompleted() {
+                            }
 
                             @Override
                             public void onError(Throwable e) {
-                                Log.e(TAG,e.getMessage(),e);
+                                Log.e(TAG, e.getMessage(), e);
                                 mDetailView.showLoadingErrorMessage(e.getMessage());
                             }
 
@@ -106,12 +104,13 @@ public class FavouriteDetailsPresenter implements FavouriteDetailsContract.Prese
                 .observeOn(mSchedulerProvider.ui())
                 .subscribe(new Subscriber<List<Trailer>>() {
                     @Override
-                    public void onCompleted() {}
+                    public void onCompleted() {
+                    }
 
                     @Override
                     public void onError(Throwable e) {
                         mDetailView.showLoadingErrorMessage(e.getMessage());
-                        Log.e(TAG,e.getMessage(),e);
+                        Log.e(TAG, e.getMessage(), e);
                     }
 
                     @Override
@@ -123,7 +122,11 @@ public class FavouriteDetailsPresenter implements FavouriteDetailsContract.Prese
                 });
 
         mSubscriptions.add(subscription);
+    }
 
+    @Override
+    public void setCurrentMovie(Movie movie) {
+        this.mCurrentMovie = movie;
     }
 
     @Override
@@ -137,23 +140,34 @@ public class FavouriteDetailsPresenter implements FavouriteDetailsContract.Prese
     }
 
     @Override
-    public void addFavourite(Movie movie) {
-        mFavouriteService.addToFavorites(movie);
+    public void addFavourite() {
+        mFavouriteService.addToFavorites(mCurrentMovie);
         mDetailView.notifyOnFavouriteAdded();
     }
 
     @Override
-    public void removeFavourite(Movie movie) {
-        mFavouriteService.removeFromFavorites(movie);
+    public void removeFavourite() {
+        mFavouriteService.removeFromFavorites(mCurrentMovie);
         mDetailView.notifyOnFavouriteRemoved();
     }
 
     @Override
-    public void onFabClicked(Movie movie) {
-        if (mFavouriteService.isFavorite(movie)) {
-            removeFavourite(movie);
+    public void toggleFavourite() {
+        if (mFavouriteService.isFavorite(mCurrentMovie)) {
+            removeFavourite();
         } else {
-            addFavourite(movie);
+            addFavourite();
+        }
+    }
+
+    private void updateFavouriteFabStatus() {
+
+        if (mCurrentMovie != null) {
+            if (mFavouriteService.isFavorite(mCurrentMovie)) {
+                mDetailView.activateFab();
+            } else {
+                mDetailView.deactivateFab();
+            }
         }
     }
 }

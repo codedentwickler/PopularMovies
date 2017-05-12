@@ -14,6 +14,7 @@ import com.udacity.fasttrack.popularmovies.R;
 public class Utils {
 
     public static final class HttpUtils {
+
         public static final String BASE_URL = "https://api.themoviedb.org/3/";
         public static final String IMAGE_POSTER_BASE_URL = "http://image.tmdb.org/t/p/w500";
         public static final String WATCH_ON_YOUTUBE_URL = "http://www.youtube.com/watch?v=";

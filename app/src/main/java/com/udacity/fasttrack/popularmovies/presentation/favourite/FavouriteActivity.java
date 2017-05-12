@@ -8,7 +8,6 @@ import android.widget.FrameLayout;
 import com.udacity.fasttrack.popularmovies.R;
 import com.udacity.fasttrack.popularmovies.data.remote.model.Movie;
 import com.udacity.fasttrack.popularmovies.presentation.tablet.MvpController;
-import com.udacity.fasttrack.popularmovies.utils.ActivityUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -16,7 +15,6 @@ import butterknife.Unbinder;
 
 public class FavouriteActivity extends AppCompatActivity {
 
-    private static final String CURRENT_FILTERING_KEY = "CURRENT_FILTERING_KEY";
     private static final String CURRENT_MOVIE_KEY = "CURRENT_MOVIE_KEY";
 
     @Nullable @BindView(R.id.content_frame_detail)
@@ -30,8 +28,6 @@ public class FavouriteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourite);
         unbinder = ButterKnife.bind(this);
-
-        ActivityUtils.setIsTablet(this, mDetailContainer != null);
 
         Movie movie = null;
         if (savedInstanceState != null) {

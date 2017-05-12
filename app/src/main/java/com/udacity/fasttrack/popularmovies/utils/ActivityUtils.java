@@ -17,8 +17,6 @@
 package com.udacity.fasttrack.popularmovies.utils;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -28,6 +26,9 @@ import com.udacity.fasttrack.popularmovies.R;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+/**
+ * Created by codedentwickler on 4/21/17.
+ */
 
 /**
  * This provides methods to help Activities load their UI.
@@ -35,8 +36,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class ActivityUtils {
 
     /**
-     * The {@code fragment} is added to the container view with id {@code frameId}. The operation is
-     * performed by the {@code fragmentManager}.
+     * The {@code fragment} is added to the container view with id {@code frameId}.
+     * The operation is performed by the {@code fragmentManager}.
      *
      */
     public static void addFragmentToActivity (@NonNull FragmentManager fragmentManager,
@@ -49,15 +50,7 @@ public class ActivityUtils {
     }
 
     public static boolean isTablet(Context context) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getBoolean(context.getString(R.string.is_tablet), false);
-
+        return context.getResources().getBoolean(R.bool.isTablet);
     }
 
-    public static void setIsTablet(Context context, boolean isTablet) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(context.getString(R.string.is_tablet), isTablet);
-        editor.apply();
-    }
 }

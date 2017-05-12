@@ -44,13 +44,18 @@
     <!-- Movie detail screen -->
     <string name="movie_detail_release_date">Release date: %s</string>
     <string name="movie_detail_overview_title">Overview</string>
-    <string name="movie_detail_videos_title">Videos</string>
+    <string name="movie_detail_videos_title">Trailers</string>
     <string name="movie_detail_reviews_title">Reviews</string>
     <string name="review_sample">Review content</string>
     <string name="author_sample">Author</string>
     <string name="is_tablet">is_tablet</string>
     <string name="retry">Retry</string>
     <string name="undo">Undo</string>
+    <string name="favorites" >Sort By : Favourites</string>
+    <string name="pref_favourite" >favourites</string>
+    <string name="no_favorite_movies"> Oops!!! You have no Favorite Movies </string>
+    <string name="no_movies_all">Downloading Movie Thumbnail\n Please Wait!!! </string>
+    <string name="network_error">An error has Occurred \n Please Check your Internet Connection</string>
 
 
 </resources>

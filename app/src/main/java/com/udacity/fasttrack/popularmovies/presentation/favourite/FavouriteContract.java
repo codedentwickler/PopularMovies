@@ -27,7 +27,6 @@ public interface FavouriteContract {
         void showMovieDetailsUi(Movie movie);
 
         boolean isActive();
-
     }
 
     interface Presenter extends BasePresenter {
@@ -39,6 +38,5 @@ public interface FavouriteContract {
         void setNetworkError();
 
         void openMovieDetails(@NonNull Movie movie);
-
     }
 }
