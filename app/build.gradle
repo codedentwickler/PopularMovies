@@ -34,7 +34,7 @@ android {
     }
 
     buildTypes.each {
-        it.buildConfigField 'String', 'MOVIE_API_KEY', "\"ec60121b6afb6ef61a610c643be464ff\""
+        it.buildConfigField 'String', 'MOVIE_API_KEY', "\"PUT YOUR API KEY HERE\""
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
