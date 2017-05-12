@@ -22,12 +22,17 @@
             android:name=".presentation.details.FavouriteDetailsActivity"
             android:label="@string/title_activity_favourite_details"
             android:parentActivityName=".presentation.favourite.FavouriteActivity"
-            android:theme="@style/AppTheme.ActionBar" >
+            android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".presentation.favourite.FavouriteActivity" />
 
         </activity>
+
+        <provider
+            android:authorities="com.udacity.fasttrack.popularmovies"
+            android:name=".data.local.FavouriteProvider"
+            android:exported="false" />
     </application>
 
 </manifest>

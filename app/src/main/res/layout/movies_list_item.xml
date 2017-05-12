@@ -3,13 +3,14 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cv"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    card_view:contentPadding="1dp">
+    android:layout_height="wrap_content">
 
-    <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.udacity.fasttrack.popularmovies.presentation.customview.ProportionalImageView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/movie_poster"
-        android:layout_width="190dp"
-        android:layout_height="260dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
         android:src="@drawable/placeholder_movie_item_image"
         android:contentDescription="@string/image_description"
         android:scaleType="centerCrop" />

@@ -27,16 +27,16 @@ public interface FavouriteContract {
         void showMovieDetailsUi(Movie movie);
 
         boolean isActive();
-
     }
 
     interface Presenter extends BasePresenter {
 
         void loadMovies(String pref);
 
+        void loadFavourites();
+
         void setNetworkError();
 
         void openMovieDetails(@NonNull Movie movie);
-
     }
 }

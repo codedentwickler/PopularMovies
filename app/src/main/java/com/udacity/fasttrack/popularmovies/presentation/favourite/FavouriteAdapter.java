@@ -1,6 +1,5 @@
 package com.udacity.fasttrack.popularmovies.presentation.favourite;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,13 +26,11 @@ import static com.udacity.fasttrack.popularmovies.utils.Utils.HttpUtils.IMAGE_PO
 class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.ViewHolder> {
 
     private final OnItemClickListener mItemClickListener;
-    private final Context mContext;
     private List<Movie> movies;
 
-    FavouriteAdapter(List<Movie> movies, OnItemClickListener itemClickListener, Context context) {
+    FavouriteAdapter(List<Movie> movies, OnItemClickListener itemClickListener) {
         setMovies(movies);
         this.mItemClickListener = itemClickListener;
-        this.mContext = context;
     }
 
     @Override
@@ -87,7 +84,6 @@ class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.ViewHolder>
 
             itemView.setOnClickListener(v -> listener.onItemClick(movie));
         }
-
     }
     interface OnItemClickListener {
         void onItemClick(Movie movie);

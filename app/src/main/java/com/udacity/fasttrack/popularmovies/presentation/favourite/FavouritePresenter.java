@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.udacity.fasttrack.popularmovies.data.MovieRepository;
+import com.udacity.fasttrack.popularmovies.data.local.FavouriteService;
 import com.udacity.fasttrack.popularmovies.data.remote.model.Movie;
 import com.udacity.fasttrack.popularmovies.utils.schedulers.BaseSchedulerProvider;
 
@@ -19,11 +20,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by codedentwickler on 4/12/17.
  */
 
-class FavouritePresenter implements FavouriteContract.Presenter {
+public class FavouritePresenter implements FavouriteContract.Presenter {
 
     private static final String TAG = FavouritePresenter.class.getSimpleName();
-
-    private boolean mFirstLoad = true;
 
     @NonNull
     private final FavouriteContract.View mFavouriteView;
@@ -34,13 +33,17 @@ class FavouritePresenter implements FavouriteContract.Presenter {
     private final BaseSchedulerProvider mSchedulerProvider;
 
     private final MovieRepository mMovieRepository;
+    private final FavouriteService mFavouriteService;
 
     public FavouritePresenter(@NonNull BaseSchedulerProvider schedulerProvider,
                               @NonNull MovieRepository movieRepository,
+                              @NonNull FavouriteService favouriteService,
                               @NonNull FavouriteContract.View favouriteView) {
         this.mSchedulerProvider = checkNotNull(schedulerProvider, "schedulerProvider cannot be null");
         this.mMovieRepository = checkNotNull(movieRepository,"movieRepository cannot be null");
+        this.mFavouriteService = checkNotNull(favouriteService,"favouriteService cannot be null");
         this.mFavouriteView = checkNotNull(favouriteView,"favouriteView cannot be null");
+
 
         mSubscriptions = new CompositeSubscription();
         this.mFavouriteView.setPresenter(this);
@@ -48,7 +51,6 @@ class FavouritePresenter implements FavouriteContract.Presenter {
 
     @Override
     public void subscribe() {
-        
     }
 
     @Override
@@ -58,15 +60,41 @@ class FavouritePresenter implements FavouriteContract.Presenter {
 
     @Override
     public void loadMovies(String pref) {
-        // Simplification for sample: a network reload will be forced on first load.
         loadMoviesWithPref(pref);
-        mFirstLoad = false;
     }
 
-    private void loadMoviesWithPref(String pref) {
+    @Override
+    public void loadFavourites() {
+        mFavouriteView.setLoadingIndicator(true);
+        Subscription subscription = mFavouriteService.getFavouritesAsObservables()
+                .subscribeOn(mSchedulerProvider.computation())
+                .observeOn(mSchedulerProvider.ui())
+                .subscribe(new Subscriber<List<Movie>>() {
+                    @Override
+                    public void onCompleted() { }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mFavouriteView.setLoadingIndicator(false);
+                        Log.e(TAG, e.getMessage());
+                        mFavouriteView.showLoadingErrorMessage(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<Movie> movies) {
+                        mFavouriteView.setLoadingIndicator(false);
+                        Log.e(TAG, movies.size() + " was fetched from Favourite service");
+
+                        mFavouriteView.showMoviesResults(movies);
+                    }
+                });
+        mSubscriptions.add(subscription);
+    }
+
+    private void loadMoviesWithPref(String category) {
 
         mFavouriteView.setLoadingIndicator(true);
-        Subscription subscription = mMovieRepository.fetchMovies(pref)
+        Subscription subscription = mMovieRepository.fetchMovies(category)
                 .subscribeOn(mSchedulerProvider.computation())
                 .observeOn(mSchedulerProvider.ui())
                 .subscribe(new Subscriber<List<Movie>>() {

@@ -13,10 +13,49 @@
     <string name="title_activity_favourite_details">Movie Detail</string>
     <string name="action_settings">Settings</string>
     <string name="jurasic">Jurasic World</string>
-    <string name="plot">jhrjkahjkhjkfhdzkfhjkhjkafvghsdvgfdhgvsghdvghasfvghfvdcghvghsdfvghdsavghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhjgvsjhfvjhdfvjhsvjhsdvjhsdfhkjfhajkafkhuihihuihuisdfuiguifuiashuighasuihuighisuhgioughuiohgiousoid</string>
-    <string name="rating">8.0/10</string>
+    <string name="plot">A plot synopsis (called overview in the api)</string>
+    <string name="rating">8.0</string>
     <string name="poster_image_description">Movie Poster</string>
     <string name="release">March 2017</string>
     <string name="running_time">130 mins</string>
     <string name="network_error_text">Your device is Currently Offline</string>
+
+
+    <!-- Content description -->
+    <string name="content_description_movie_poster">Movie poster image</string>
+    <string name="content_description_movie_backdrop">Movie backdrop image</string>
+    <string name="content_description_movie_video">Movie video thumbnail</string>
+    <string name="content_description_no_movies_icon">No movies icon</string>
+
+
+    <!-- Regular information messages -->
+    <string name="message_added_to_favorites">Added to favorites</string>
+    <string name="message_removed_from_favorites">Removed from favorites</string>
+
+    <!-- Error messages -->
+    <string name="error_failed_to_update_movies">Failed to update movies</string>
+
+    <!-- Movies grid screen -->
+    <string name="movies_grid_no_movies">No movies</string>
+
+    <!-- Favorites grid screen -->
+    <string name="favorites_grid_title">Favorites</string>
+
+    <!-- Movie detail screen -->
+    <string name="movie_detail_release_date">Release date: %s</string>
+    <string name="movie_detail_overview_title">Overview</string>
+    <string name="movie_detail_videos_title">Trailers</string>
+    <string name="movie_detail_reviews_title">Reviews</string>
+    <string name="review_sample">Review content</string>
+    <string name="author_sample">Author</string>
+    <string name="is_tablet">is_tablet</string>
+    <string name="retry">Retry</string>
+    <string name="undo">Undo</string>
+    <string name="favorites" >Sort By : Favourites</string>
+    <string name="pref_favourite" >favourites</string>
+    <string name="no_favorite_movies"> Oops!!! You have no Favorite Movies </string>
+    <string name="no_movies_all">Downloading Movie Thumbnail\n Please Wait!!! </string>
+    <string name="network_error">An error has Occurred \n Please Check your Internet Connection</string>
+
+
 </resources>

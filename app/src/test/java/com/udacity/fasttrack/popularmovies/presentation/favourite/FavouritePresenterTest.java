@@ -1,6 +1,7 @@
 package com.udacity.fasttrack.popularmovies.presentation.favourite;
 
 import com.udacity.fasttrack.popularmovies.data.MovieRepository;
+import com.udacity.fasttrack.popularmovies.data.local.FavouriteService;
 import com.udacity.fasttrack.popularmovies.utils.schedulers.BaseSchedulerProvider;
 import com.udacity.fasttrack.popularmovies.utils.schedulers.ImmediateSchedulerProvider;
 
@@ -13,6 +14,7 @@ import static org.mockito.Mockito.when;
 /**
  * Created by codedentwickler on 4/15/17.
  */
+
 public class FavouritePresenterTest {
 
     @Mock
@@ -20,6 +22,8 @@ public class FavouritePresenterTest {
 
     @Mock
     FavouriteContract.View mFavouriteView;
+
+    FavouriteService mFavouriteService;
 
     BaseSchedulerProvider mSchedulerProvider;
 
@@ -31,13 +35,10 @@ public class FavouritePresenterTest {
         MockitoAnnotations.initMocks(this);
 
         mSchedulerProvider = new ImmediateSchedulerProvider();
-        mPresenter = new FavouritePresenter(mSchedulerProvider, mMovieRepository, mFavouriteView);
-
+        mPresenter = new FavouritePresenter(mSchedulerProvider, mMovieRepository, mFavouriteService, mFavouriteView);
 
         // The presenter won't update the view unless it's active.
         when(mFavouriteView.isActive()).thenReturn(true);
     }
-
-
 
 }
