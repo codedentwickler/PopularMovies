@@ -1,18 +1,45 @@
 # PopularMovies
-An Android Application that displays a GridView of Movies from themoviedb Api
+Android app that lists popular/highest-rated movies, shows trailers and reviews.
+
+This app implememts the MVP pattern. RxJava, Dependency Injection (Custom).
+Optimized for tablets.
+
+## Getting Started
+
+You can clone this repo by running this command ``` git clone ``` on git bash or linux terminal.
+
+### Prerequisites
 
 To run the App on your device, you need to get api key from api.themoviedb.org
 
-Check out the App level build.gradle file, you will see where to add the api key 
+Check out the App level build.gradle file, you will see where to paste your api key there
 
-#Thanks
+```  it.buildConfigField 'String', 'MOVIE_API_KEY', "\"PUT YOUR API KEY HERE\"" ```
+
+with your api 
+
+### Third party libraries
+* RxJava
+* RxAndroid
+* Retrofit
+* ButterKnife
+* Gson
+* Okhttp3
+* Glide
+* Guava
+* Mockito
+* 
+### Contributors on GitHub
+Please feel free to make a pull request. There is so much to improve on.
+Working on refractoring the app to use Dagger 2 for dependency Injection in place of the Custom Injection implemented
+Also few tests have been written, and hopefully we can have more from your contribution so to fix those hidden bugs and ensure the project is safe to use for learning
+
+#### Developer
+* e-mail : kanyinsolafapohunda@gmail.com
+* Twitter: [@codedentwickler](https://twitter.com/codedentwickler "codedentwickler on twitter")
 
 
-
-
-
-
-##LICENSE
+##### LICENSE
 
 ```
 
