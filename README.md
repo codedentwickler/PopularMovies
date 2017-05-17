@@ -2,7 +2,7 @@
 An Functioning Android App which I built for Udacity Associate Android Developer FastTrack program sponsored by Andela and supported by Google. 
 
 ## Feature
-* This app implememts the MVP pattern. RxJava, Dependency Injection (Custom).
+* This app implements the MVP pattern, RxJava, Dependency Injection(Custom).
 * This app showcases responsive UI both for phone and tablet devices.
 * Discover the most popular, the most rated or the highest rated movies
 * Save favorite movies locally to view them even when offline
@@ -23,7 +23,7 @@ Check out the App level build.gradle file, you will see where to paste your api 
 
 with your api 
 
-### Third party libraries
+### Libraries
 * RxJava
 * RxAndroid
 * Retrofit
