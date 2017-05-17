@@ -21,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.udacity.fasttrack.popularmovies.R;
 import com.udacity.fasttrack.popularmovies.data.remote.model.Movie;
@@ -53,9 +52,6 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
     @BindView(R.id.root_view)
     ConstraintLayout mRootView;
 
-    @BindView(R.id.noMovies_text_text)
-    TextView noMoviesTextView;
-
     @BindView(R.id.progress_bar)
     ProgressBar mProgressBar;
 
@@ -83,7 +79,6 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
                 movie -> {
                     // Item Click Listener is here
                     mPresenter.openMovieDetails(movie);
-
                 });
     }
 
@@ -160,7 +155,9 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
 
             case R.id.most_popular:
                 editor.putString(getString(R.string.category_key), getString(R.string.pref_most_popular));
-                actionBar.setTitle(R.string.popular);
+                if (actionBar != null) {
+                    actionBar.setTitle(R.string.popular);
+                }
                 // Commit the edits!
                 editor.apply();
                 loadMovies();
@@ -168,7 +165,9 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
 
             case R.id.top_rated:
                 editor.putString(getString(R.string.category_key), getString(R.string.pref_top_rated));
-                actionBar.setTitle(R.string.top_rated);
+                if (actionBar != null) {
+                    actionBar.setTitle(R.string.top_rated);
+                }
                 // Commit the edits!
                 editor.apply();
                 loadMovies();
@@ -177,7 +176,9 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
             case R.id.favourite:
                 editor.putString(getString(R.string.category_key),
                         getString(R.string.pref_favourite));
-                actionBar.setTitle(R.string.favorites_grid_title);
+                if (actionBar != null) {
+                    actionBar.setTitle(R.string.favorites_grid_title);
+                }
                 // Commit the edits!
                 editor.apply();
                 loadMovies();
@@ -222,8 +223,6 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
 
     @Override
     public void showNetworkError() {
-        noMoviesTextView.setText(R.string.network_error);
-        noMoviesTextView.setVisibility(View.VISIBLE);
         Utils.showNetworkError(mRootView, v -> loadMovies());
     }
 
@@ -239,7 +238,6 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
             Intent intent = new Intent(this.getContext(), FavouriteDetailsActivity.class);
             intent.putExtra(ARGUMENT_MOVIE, movie);
             startActivity(intent);
-
     }
 
     @Override
@@ -250,21 +248,10 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Vie
     private void showLoading() {
         mMovieRecyclerView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
-        noMoviesTextView.setVisibility(View.GONE);
     }
 
     private void hideLoading() {
         mMovieRecyclerView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
-        noMoviesTextView.setVisibility(View.GONE);
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        if (mFavouriteAdapter.getItemCount() == 0 && sharedPreferences.getString
-                (getString(R.string.category_key), getString(R.string.pref_most_popular))
-                .equals(getString(R.string.pref_favourite))) {
-            noMoviesTextView.setText(R.string.no_favorite_movies);
-            noMoviesTextView.setVisibility(View.GONE);
-        }
     }
-
 }

@@ -5,7 +5,6 @@ package com.udacity.fasttrack.popularmovies.injection;
  * Created by codedentwickler on 4/12/17.
  */
 
-import android.app.Application;
 import android.content.Context;
 
 import com.udacity.fasttrack.popularmovies.data.MovieRepository;
@@ -29,23 +28,11 @@ public final class Injection {
     private static MovieDbRestService movieDbRestService;
     private static Retrofit retrofitInstance;
 
-
-    private static Application application;
-
-    private static FavouriteService favouriteService;
-
-    private static Application provideApplicationContext(){
-        if (application == null) {
-            application = new Application();
-        }
-        return application;
-    }
-
     public static FavouriteService provideFavouriteService(Context context){
         return new FavouriteService(context, provideSchedulerProvider() );
     }
 
-    public static MovieRepository provideMovieRepo(Context context) {
+    public static MovieRepository provideMovieRepo() {
         return new MovieRepositoryImplementation(provideMovieDbRestServiceRestService());
     }
 

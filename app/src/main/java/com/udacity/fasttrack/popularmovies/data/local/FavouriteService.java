@@ -75,7 +75,7 @@ public class FavouriteService {
 
         File file = new File(directory, movie.getOriginalTitle() + ".jpg");
 
-        FileOutputStream fos = null;
+        FileOutputStream fos;
         try {
 
             fos = new FileOutputStream(file);
@@ -88,7 +88,6 @@ public class FavouriteService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.e("absolutepath ", directory.getAbsolutePath());
         return directory.getAbsolutePath();
     }
 
