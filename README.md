@@ -33,7 +33,16 @@ with your api
 * Glide
 * Guava
 * Mockito
-* 
+
+![Video](https://cloud.githubusercontent.com/assets/18694890/26163185/cceec030-3b20-11e7-9565-89e326a67434.gif)
+![Video](https://cloud.githubusercontent.com/assets/18694890/26163334/41326f78-3b21-11e7-8655-2f9d99d5fcf8.gif)
+
+![Phone](https://cloud.githubusercontent.com/assets/18694890/26162310/48e480a6-3b1e-11e7-8898-f205141586c9.png)
+
+![Phone](https://cloud.githubusercontent.com/assets/18694890/26162308/48e21b18-3b1e-11e7-97e7-a36a284581d2.png)
+
+![Tablet](https://cloud.githubusercontent.com/assets/18694890/26162336/63c85a3c-3b1e-11e7-99b4-6a3cc78a8bbb.png)
+
 ### Contributors on GitHub
 Please feel free to make a pull request. There is so much to improve on.
 
