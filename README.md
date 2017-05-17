@@ -1,8 +1,13 @@
 # PopularMovies
-Android app that lists popular/highest-rated movies, shows trailers and reviews.
+An Functioning Android App which I built for Udacity Associate Android Developer FastTrack program sponsored by Andela and supported by Google. 
 
-This app implememts the MVP pattern. RxJava, Dependency Injection (Custom).
-Optimized for tablets.
+## Feature
+* This app implememts the MVP pattern. RxJava, Dependency Injection (Custom).
+* This app showcases responsive UI both for phone and tablet devices.
+* Discover the most popular, the most rated or the highest rated movies
+* Save favorite movies locally to view them even when offline
+* Watch Movie trailers and Read reviews
+
 
 ## Getting Started
 
@@ -31,7 +36,9 @@ with your api
 * 
 ### Contributors on GitHub
 Please feel free to make a pull request. There is so much to improve on.
+
 Working on refractoring the app to use Dagger 2 for dependency Injection in place of the Custom Injection implemented
+
 Also few tests have been written, and hopefully we can have more from your contribution so to fix those hidden bugs and ensure the project is safe to use for learning
 
 #### Developer
