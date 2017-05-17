@@ -26,8 +26,6 @@ import static com.udacity.fasttrack.popularmovies.utils.Utils.HttpUtils.IMAGE_PO
 
 public class FavouriteDetailsActivity extends AppCompatActivity {
 
-    private static final String TAG = FavouriteDetailsActivity.class.getSimpleName();
-
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.collapsing_toolbar_layout)
@@ -69,7 +67,7 @@ public class FavouriteDetailsActivity extends AppCompatActivity {
                 movie, detailsFragment,
                 Injection.provideFavouriteService(this),
                 Injection.provideSchedulerProvider(),
-                Injection.provideMovieRepo(this));
+                Injection.provideMovieRepo());
     }
 
     @Override

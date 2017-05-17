@@ -35,7 +35,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
     @Nullable
     private List<Trailer> trailers;
 
-    public TrailerAdapter(ArrayList<Trailer> trailers,OnItemClickListener mItemClickListener) {
+    TrailerAdapter(ArrayList<Trailer> trailers, OnItemClickListener mItemClickListener) {
         this.mItemClickListener = mItemClickListener;
         setTrailers(trailers);
     }

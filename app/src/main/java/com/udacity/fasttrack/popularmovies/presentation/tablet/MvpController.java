@@ -93,12 +93,12 @@ public class MvpController {
                 mCurrentMovie, detailsFragment,
                 Injection.provideFavouriteService(mFragmentActivity),
                 Injection.provideSchedulerProvider(),
-                Injection.provideMovieRepo(mFragmentActivity));
+                Injection.provideMovieRepo());
     }
 
     private FavouritePresenter createListPresenter(FavouriteFragment favouriteFragment) {
         mFavouritePresenter = new FavouritePresenter(Injection.provideSchedulerProvider(),
-                Injection.provideMovieRepo(mFragmentActivity),
+                Injection.provideMovieRepo(),
                 Injection.provideFavouriteService(mFragmentActivity),
                 favouriteFragment);
 

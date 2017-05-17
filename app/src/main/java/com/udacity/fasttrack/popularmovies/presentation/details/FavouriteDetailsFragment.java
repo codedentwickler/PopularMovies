@@ -47,7 +47,6 @@ import static com.udacity.fasttrack.popularmovies.utils.Utils.showMessage;
 public class FavouriteDetailsFragment extends Fragment implements FavouriteDetailsContract.View {
 
     public static final String ARGUMENT_MOVIE = "movie";
-    private static final String TAG = FavouriteDetailsFragment.class.getSimpleName();
 
     private static final String MOVIE_REVIEWS_KEY = "movie_reviews_key";
     private static final String MOVIE_TRAILERS_KEY = "movie_trailers_key";
@@ -68,9 +67,6 @@ public class FavouriteDetailsFragment extends Fragment implements FavouriteDetai
     CardView cardMovieOverview;
     @BindView(R.id.root_view)
     RelativeLayout mRootLayout;
-    @Nullable
-    @BindView(R.id.noMovies_text_view)
-    TextView mEmptyTextView;
 
     @BindView(R.id.card_movie_videos)
     CardView cardMovieTrailers;
@@ -260,7 +256,6 @@ public class FavouriteDetailsFragment extends Fragment implements FavouriteDetai
             mPresenter.loadReviews(movie.getId());
             mPresenter.loadTrailers(movie.getId());
         } else {
-            mEmptyTextView.setVisibility(View.VISIBLE);
             mFavouriteFab.setVisibility(GONE);
             mRootLayout.setVisibility(GONE);
         }

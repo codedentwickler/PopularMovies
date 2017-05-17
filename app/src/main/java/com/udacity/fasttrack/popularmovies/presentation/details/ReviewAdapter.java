@@ -30,7 +30,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     @Nullable
     private List<Review> reviews;
 
-    ReviewAdapter(List<Review> reviews, OnItemClickListener mItemClickListener) {
+    ReviewAdapter(@Nullable List<Review> reviews, OnItemClickListener mItemClickListener) {
         this.mItemClickListener = mItemClickListener;
         this.reviews = reviews;
     }
