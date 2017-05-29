@@ -1,5 +1,5 @@
 # PopularMovies
-An Functioning Android App which I built for Udacity Associate Android Developer FastTrack program sponsored by Andela and supported by Google. 
+A Functioning Android App which I built for Udacity Associate Android Developer FastTrack program sponsored by Andela and supported by Google. 
 
 ## Feature
 * This app implements the MVP pattern, RxJava, Dependency Injection(Custom).
