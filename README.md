@@ -32,7 +32,6 @@ with your api
 * Okhttp3
 * Glide
 * Guava
-* Mockito
 
 ![Video](https://cloud.githubusercontent.com/assets/18694890/26163185/cceec030-3b20-11e7-9565-89e326a67434.gif)
 ![Video](https://cloud.githubusercontent.com/assets/18694890/26163334/41326f78-3b21-11e7-8655-2f9d99d5fcf8.gif)
